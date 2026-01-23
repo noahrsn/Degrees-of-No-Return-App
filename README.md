@@ -4,4 +4,4 @@ Kurz: Dieses Projekt übersetzt globale Klimamodelle in lokal verständliche, vi
 
 Wo die Konzeption (Q-Phase aus QUAAACK) zu finden ist:
 
-- Ausführliche Projektbeschreibung, Ziele und Datengrundlage: [conception/conception.ipynb](documentation/conception.ipynb)
+- Ausführliche Projektbeschreibung, Ziele und Datengrundlage: [documentation/conception.ipynb](documentation/conception.ipynb)
