@@ -1,0 +1,4 @@
+anforderungen.txt
+# Optional: common Python ignores
+__pycache__/
+.venv/
