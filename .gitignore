@@ -1,4 +1,4 @@
 anforderungen.txt
-# Optional: common Python ignores
+conception/conception_old.ipynb
 __pycache__/
 .venv/
