@@ -24,7 +24,7 @@ Alle durch KI-Systeme generierten Ergebnisse (z.B. Code, Analysen, Texte) wurden
 | **A** - parameter Adjustment |  | `mlflow` & `scikit-learn` Integration |  |
 | **C** - Conclusion & **C**omparison |  | Analyse von `mlflow`-Daten |  |
 | **K** - Knowledge **T**ransfer |  | `streamlit`-Dashboard |  |
-| **K** - Knowledge **T**ransfer |  | Dokumentation, Übersetzung |  |
+| **K** - Knowledge **T**ransfer |  | Dokumentation, Übersetzung |  | 
 
 ## Verwendete Datensätze
 
