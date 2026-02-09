@@ -17,7 +17,7 @@ Alle durch KI-Systeme generierten Ergebnisse (z.B. Code, Analysen, Texte) wurden
 
 | Phase (QUA³CK) | KI-Tool (Version) | Zweck | Beispielhafter Prompt / Anwendungsfall |
 | :--- | :--- | :--- | :--- |
-| **Q** - Question | GitHub Copilot (GPT-4o), Google Gemini 1.5 Pro | Recherche Datensätze, Konzept | "Finde aktuelle öffentliche Datensätze (CC-Lizenz) zum Thema 'Telco Customer Churn'. Liste Features und Zielvariablen auf." |
+| **Q** - Question | GitHub Copilot (GPT-4o), Google Gemini 1.5 Pro | Recherche Datensätze, Konzept | "Finde aktuelle öffentliche Datensätze zu historischen lokalisierbaren Daten zur Erderwärmung auf. Liste Features und Zielvariablen auf." |
 | **U** - Understanding |  | Explorative Datenanalyse (EDA) |  |
 | **A** - Algorithm Selection |  | Algorithmenauswahl |  |
 | **A** - data Adaption |  | `scikit-learn` Preprocessing |  |
@@ -32,7 +32,8 @@ Im Rahmen des Projekts wurden folgende öffentlich zugängliche Datensätze verw
 
 | Datensatz | Quelle | Beschreibung | Verwendungszweck |
 | :--- | :--- | :--- | :--- |
-| **Telco Customer Churn** | Kaggle / IBM Sample Data Sets | Datensatz mit 7043 Kunden, inkl. Demografie, Services und Churn-Label. | Hauptdatensatz für Training, Validierung und EDA (Phase **U**, **A**). |
-| **Bank Customer Churn** | Kaggle (Public Domain) | Daten von 10.000 Bankkunden mit Kredit-Score, Balance und Produktanzahl. | Validierung der Pipeline-Generalisierbarkeit auf Finanzdaten (Phase **C**). |
-| **Synthetic Churn Data** | Generiert (`scikit-learn`) | Synthetischer Datensatz (100k Samples) mit simulierten Features. | Lasttests für die API und Benchmarking der Inferenzzeit (Phase **K**). |
-| **US Zip Code Database** | SimpleMaps (Basic) | Zuordnungstabelle von PLZ zu US-Bundesstaaten und Koordinaten. | Feature Engineering zur Anreicherung geografischer Informationen (Phase **A**). |
+| **NASA GISS Surface Temp (GISTEMP v4)** | NASA GISS (Goddard Institute) | Globale monatliche Temperaturanomalien (1880–heute) auf 2°×2°-Raster; kombiniert Landstationen und Ozeandaten (ERSSTv5). | Historische Basisdaten („Ground Truth“) für das Training der lokalen Temperaturmodelle und Input für die globale Heatmap-Visualisierung. |
+| **NOAA Mauna Loa CO₂ Record** | NOAA Global Monitoring Laboratory (GML) | Längste kontinuierliche Messreihe (seit 1958) der atmosphärischen CO₂-Konzentration (in ppm); bekannt als „Keeling-Kurve“. | Zentrales globales Feature (Prädiktor) für das ML-Modell, um den statistischen Zusammenhang zwischen Treibhausgasen und lokaler Temperatur zu lernen. |
+| **Global Mean Sea Level Reconstruction** | EPA / CSIRO / NOAA | Rekonstruierte Zeitreihe (1880–heute) des globalen mittleren Meeresspiegels; fusioniert historische Pegelmessungen (Tide Gauges) mit präzisen Satellitendaten. | Dient als historische Zielvariable (Target) für das Training des ML-Modells, um den Zusammenhang zwischen Temperaturanstieg und Meeresspiegeländerung zu lernen. |
+| **Copernicus DEM (GLO-30)** | ESA / OpenTopography / AWS | Globales digitales Oberflächenmodell (DSM) mit 30m Auflösung. Aktueller wissenschaftlicher Standard für weltweite Höhenanalysen (höhere vertikale Genauigkeit als SRTM). | Globale & Regionale Ebene: Basis für die Berechnung von Überflutungsflächen auf der Weltkarte und für größere Regionen. |
+| **DGM1 (Digitales Geländemodell)** | Geodatenzentren der Bundesländer (Open Data) | Höchstaufgelöstes Geländemodell mit 1m Raster für Deutschland. Bildet die reine Bodenhöhe (ohne Vegetation/Gebäude) extrem präzise ab. | Lokale Ebene (Zoom): Ermöglicht die im Pitch versprochene „grundstücksgenaue“ Risikoanalyse für deutsche Kommunen und Immobilienbesitzer. |
