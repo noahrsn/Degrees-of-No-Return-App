@@ -17,8 +17,8 @@ Alle durch KI-Systeme generierten Ergebnisse (z.B. Code, Analysen, Texte) wurden
 
 | Phase (QUA³CK) | KI-Tool (Version) | Zweck | Beispielhafter Prompt / Anwendungsfall |
 | :--- | :--- | :--- | :--- |
-| **Q** - Question | GitHub Copilot (GPT-4o), Google Gemini 1.5 Pro | Recherche Datensätze, Konzept | "Finde aktuelle öffentliche Datensätze zu historischen lokalisierbaren Daten zur Erderwärmung auf. Liste Features und Zielvariablen auf." |
-| **U** - Understanding |  | Explorative Datenanalyse (EDA) |  |
+| **Q** - Question | GitHub Copilot, Google Gemini (1.5 Pro) | Recherche Datensätze, Projektkonzept (`C-Phase.ipynb`), Erstellung der Leitdokumente (`AGENT.md`, `README.md`) | "Finde aktuelle öffentliche Datensätze zu historischen lokalisierbaren Daten zur Erderwärmung... / Schreibe hieraus eine AGENT.md für mein Projekt." |
+| **U** - Understanding | Google Gemini (1.5 Pro), GitHub Copilot | Explorative Datenanalyse (EDA) in der `U-Phase.ipynb`, Unterstützung bei spezifischen Geodaten-Bibliotheken (`xarray`, `rasterio`) | "Wie lade und visualisiere ich NetCDF-Klimadaten mit xarray und untersuche die Dimensionen?" |
 | **A** - Algorithm Selection |  | Algorithmenauswahl |  |
 | **A** - data Adaption |  | `scikit-learn` Preprocessing |  |
 | **A** - parameter Adjustment |  | `mlflow` & `scikit-learn` Integration |  |

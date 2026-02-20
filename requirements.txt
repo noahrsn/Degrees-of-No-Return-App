@@ -1,0 +1,20 @@
+# Datenmanipulation & Basis-Tools
+pandas
+numpy
+
+# Geodaten & Klimadaten-Verarbeitung
+xarray
+netcdf4
+rasterio
+geopandas
+
+# Visualisierung
+matplotlib
+cartopy
+
+# Machine Learning
+scikit-learn
+
+# Frontend & Entwicklungsumgebung
+streamlit
+jupyter
