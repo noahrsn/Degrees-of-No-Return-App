@@ -1,23 +1,83 @@
-# Glossar: Degrees of No Return
+# 📖 Glossar & Begriffserklärungen
 
-Dieses Glossar erklärt die wichtigsten Fachbegriffe aus den Bereichen Meteorologie und Data Science, die in diesem Projekt verwendet werden.
+Dieses Glossar erklärt wichtige Begriffe, Methoden und Metriken aus dem Projekt „Degrees of No Return“ in verständlicher Sprache. Es dient als Nachschlagewerk für alle, die tiefer in die Materie eintauchen möchten, ohne Data-Science-Experten zu sein.
 
-### 🌡️ Meteorologie & Klimawissenschaften
+## 🌡️ Klimatologische Begriffe
 
-* **Hitzetag:** Dies ist ein fest definierter Begriff aus der Meteorologie. Ein Tag gilt offiziell als Hitzetag, wenn die an einer Wetterstation gemessene Lufttemperatur (in der Regel in 2 Metern Höhe) mindestens **30,0 °C** erreicht. 
-* **Temperaturanomalie:** Hierbei handelt es sich um die Abweichung der Temperatur von einem langjährigen Durchschnittswert. Es wird also nicht gemessen, wie viel Grad es an einem Tag genau hatte, sondern um wie viel Grad es wärmer oder kälter war als im historischen Mittel.
-* **Keeling-Kurve:** Die grafische Darstellung der kontinuierlichen Messung der CO₂-Konzentration in der Atmosphäre seit 1958 auf dem Vulkan Mauna Loa auf Hawaii. Sie gilt als Referenz für die globale CO₂-Entwicklung.
-* **Deseasonalized (saisonbereinigt):** Bezeichnet Daten, bei denen regelmäßige jahreszeitliche Schwankungen herausgerechnet wurden. Zum Beispiel nehmen Pflanzen im Sommer CO₂ auf und geben es im Winter wieder ab. Durch die Glättung dieser Zacken wird der eigentliche, langfristige Trend sichtbar.
-* **Tide Gauges (Küstenpegel):** Historische Messstationen an der Küste zur Bestimmung des Meeresspiegels. 
-* **Altimetriedaten (Satelliten-Altimetrie):** Hochpräzise Messreihen, bei denen Satelliten (seit 1993) aus dem All die Höhe des Meeresspiegels erfassen.
+**Hitzetag**
+Ein meteorologischer Begriff. Ein Tag gilt dann als Hitzetag, wenn die **Tageshöchsttemperatur 30 °C erreicht oder überschreitet**. In unseren Modellen prognostizieren wir die jährliche Anzahl dieser Tage, da sie ein direkter Indikator für Gesundheitsrisiken und städtische Hitzeinseln sind.
 
-### 💻 Data Science & App-Entwicklung
+**Emissionspfade (Szenarien)**
+Zukunftsprojektionen darüber, wie viel Treibhausgas die Menschheit in den kommenden Jahren ausstoßen wird. Das Projekt unterscheidet oft zwischen einem „Weiter-wie-bisher“-Szenario (hohe Emissionen) und einem „Klimaziel“-Szenario (starke Reduktion der Emissionen).
 
-* **Downscaling:** Ein wichtiges Verfahren, bei dem grobmaschige, globale Daten auf kleine, lokale Koordinaten anwendbar gemacht werden (z. B. auf Straßenzüge oder bestimmte Städte). 
-* **EDA (Explorative Datenanalyse):** Das Fundament der Datenverarbeitung. Hierbei werden Rohdaten zunächst auf ihre Struktur, Muster, Qualität und mögliche Fehler geprüft.
-* **Ground Truth:** Bezeichnet die „absolute Wahrheit“ oder den verlässlichen Referenzdatensatz für ein Modell. In diesem Projekt dienen die historischen Temperaturdaten der NASA als Ground Truth, an der das Modell lernt, wie reale Erwärmung aussieht.
-* **Imputation:** Ein statistisches Verfahren, um fehlende Datenpunkte in einer Messreihe künstlich zu berechnen ("erfinden"). Um die wissenschaftliche Glaubwürdigkeit der App nicht zu gefährden, wird hier im Projekt bewusst darauf verzichtet.
-* **Prädiktor:** Der zentrale Einflussfaktor, der genutzt wird, um in einem Machine-Learning-Modell etwas vorherzusagen. Hier ist z. B. der CO₂-Wert der Prädiktor für die Klimaerwärmung.
-* **Skalierung (Normalisierung):** Da verschiedene Datenreihen (wie CO₂-Konzentration mit Werten über 400 und Temperaturänderungen um 2 Grad) unterschiedliche Größenordnungen haben, müssen sie für das Machine-Learning-Modell auf einen einheitlichen Maßstab gebracht werden, um fehlerhafte Gewichtungen zu verhindern.
-* **Copernicus DEM (Digitales Höhenmodell):** Eine extrem genaue, dreidimensionale Landkarte der Erde aus dem All. In dieser Karte ist für jeden Bildpunkt hinterlegt, wie hoch er über dem Meeresspiegel liegt.
-* **GeoTIFF / NetCDF (.nc):** Dies sind Standard-Datenformate für die Wissenschaft. *GeoTIFF* wird oft für Bilder verwendet, in denen jeder Pixel mit echten geografischen Koordinaten und Höhenwerten verknüpft ist. *NetCDF* speichert mehrdimensionale Raster-Daten ab, um beispielsweise Temperaturänderungen über Raum (Längen-/Breitengrad) und Zeit (Monate) abzubilden.
+**Downscaling**
+Das "Herunterrechnen" von globalen Daten auf eine lokale Ebene. Ein globales Klimamodell sagt vielleicht vorher, dass die Erde im Schnitt 1 Grad wärmer wird. Downscaling berechnet, was das *konkret* für z.B. Berlin oder München bedeutet (da sich Landmassen schneller erwärmen als Ozeane).
+
+---
+
+## 🤖 Machine Learning & Data Science (Die „A-Phasen“)
+
+**Algorithmus**
+In unserem Kontext ein „Rezept“ für den Computer. Es ist eine Rechenvorschrift, die aus Daten lernt. Wir testen verschiedene Algorithmen (z.B. *Lineare Regression*, *Random Forest*), um zu sehen, welcher die Zusammenhänge zwischen CO₂ und Temperatur am besten versteht.
+
+**Training & Testen**
+Wir geben dem Modell nie *alle* Daten zum Lernen. Wir behalten einen Teil (die jüngsten Jahre) zurück („Testdaten“). Das Modell lernt mit den alten Daten („Trainingsdaten“) und muss dann beweisen, dass es die Testdaten korrekt vorhersagen kann, ohne sie vorher gesehen zu haben.
+
+**Features (Merkmale)**
+Die „Zutaten“, mit denen wir das Modell füttern.
+*   *Beispiel:* Um die Temperatur von morgen vorherzusagen, könnten Features sein: „Temperatur heute“, „CO₂-Konzentration aktuell“, „Jahreszeit“.
+*   **Lag-Features (Verzögerung):** Ein spezielles Feature. Da das Klima träge ist (wie ein schwerer Güterzug), wirkt sich CO₂ von heute erst später voll aus. Lag-Features berücksichtigen diese Verzögerung (z.B. „CO₂-Wert von vor 10 Jahren“).
+
+**Hyperparameter**
+Die „Einstellungen am Backofen“. Während der Algorithmus das Rezept ist, sind Hyperparameter die Feinjustierungen (z.B. wie schnell soll das Modell lernen? Wie komplex darf die Formel sein?). Wir optimieren diese, um das bestmögliche Ergebnis zu erzielen.
+
+**Overfitting (Überanpassung)**
+Ein häufiges Problem. Das Modell lernt die Trainingsdaten *zu* gut auswendig, anstatt die allgemeinen Regeln zu verstehen.
+*   *Metapher:* Ein Schüler, der die Lösungen für die Mathe-Hausaufgabe auswendig lernt, aber in der Klassenarbeit (neue Aufgaben) versagt. Wir vermeiden das durch Techniken wie *Cross-Validation*.
+
+---
+
+## 📊 Messgrößen der Genauigkeit
+
+**RMSE (Root Mean Square Error)**
+Unser wichtigstes Maß für die Genauigkeit bei Temperaturvorhersagen.
+*   Er gibt an, um wie viel Grad das Modell im Durchschnitt daneben liegt.
+*   **Ziel:** Wir wollen einen RMSE von unter **0,2 °C**. Das bedeutet, unsere Vorhersage weicht durchschnittlich weniger als 0,2 Grad vom tatsächlichen Wert ab.
+
+**R² (Bestimmtheitsmaß)**
+Ein Wert zwischen 0 und 1 (oder 0% und 100%). Er sagt aus, wie viel Prozent der Schwankungen in den Daten unser Modell erklären kann.
+*   Ein R² von 0,95 bedeutet: Das Modell erklärt 95% der Temperaturveränderungen korrekt.
+
+---
+
+## 🔄 Prozessmodell: QUA³CK
+
+Wir arbeiten nach dem **QUA³CK-Prozessmodell** (gesprochen: "Quack"). Es ist unser strukturierter Fahrplan, um von der ersten Idee zur fertigen Anwendung zu gelangen. Das "Hoch 3" steht für die drei intensiven Entwicklungsphasen im Bereich Machine Learning.
+
+**Q – Question (Fragestellung)**
+*   Am Anfang steht das "Warum?". Wir definieren das konkrete Problem, die Zielgruppe (z.B. Stadtplaner) und die Erfolgskriterien.
+*   *Ziel:* Ein klares Verständnis davon, was wir lösen wollen (z.B. "Wie heiß wird es 2050 in Berlin?").
+
+**U – Understanding the Data (Datenverständnis)**
+*   Bevor wir modellieren, müssen wir unsere Daten kennenlernen. Wir prüfen Qualität, Ursprung und Verteilung.
+*   *Ziel:* Sicherstellen, dass unsere Datenbasis ("Single Source of Truth") sauber und vertrauenswürdig ist.
+
+**A1 – Algorithm Selection (Algorithmenauswahl)**
+*   Die Suche nach dem passenden Werkzeug. Testen verschiedener Modelle (z.B. Lineare Regression vs. Random Forest).
+*   *Ziel:* Den Algorithmus finden, der unser Problem am besten lösen kann.
+
+**A2 – Adapting Features (Feature-Anpassung)**
+*   Datenaufbereitung für Fortgeschrittene. Wir transformieren Rohdaten so, dass das Modell sie besser versteht (z.B. durch "Lag-Features" oder zeitliche Synchronisierung).
+*   *Ziel:* Den Rohdiamanten schleifen, damit das Modell Muster leichter erkennt.
+
+**A3 – Adjusting Hyperparameters (Hyperparameter-Optimierung)**
+*   Feinjustierung. Wir drehen an den Stellschrauben des gewählten Modells, um das letzte Quäntchen Genauigkeit herauszuholen (z.B. RMSE unter 0,2 °C drücken).
+*   *Ziel:* Maximale Performance und Robustheit.
+
+**C – Conclusion & Compare (Schlussfolgerung)**
+*   Der Realitätscheck. Wir bewerten das fertig trainierte Modell kritisch und vergleichen es mit Alternativen.
+*   *Ziel:* Die Entscheidung für das finale Modellsetup, das in die App kommt.
+
+**K – Knowledge Transfer (Wissenstransfer)**
+*   Vom Code zur Anwendung. Wir bauen die Streamlit-Web-App und dokumentieren unsere Ergebnisse verständlich.
+*   *Ziel:* Die komplexen Ergebnisse für den Endnutzer nutzbar machen (Dashboard, Karten, KPIs).

@@ -19,12 +19,11 @@ Alle durch KI-Systeme generierten Ergebnisse (z.B. Code, Analysen, Texte) wurden
 | :--- | :--- | :--- | :--- |
 | **Q** - Question | GitHub Copilot, Google Gemini (1.5 Pro) | Recherche Datensätze, Projektkonzept (`C-Phase.ipynb`), Erstellung der Leitdokumente (`AGENT.md`, `README.md`) | "Finde aktuelle öffentliche Datensätze zu historischen lokalisierbaren Daten zur Erderwärmung... / Schreibe hieraus eine AGENT.md für mein Projekt." |
 | **U** - Understanding | Google Gemini (1.5 Pro), GitHub Copilot | Explorative Datenanalyse (EDA) in der `U-Phase.ipynb`, Unterstützung bei spezifischen Geodaten-Bibliotheken (`xarray`, `rasterio`) | "Wie lade und visualisiere ich NetCDF-Klimadaten mit xarray und untersuche die Dimensionen?" |
-| **A** - Algorithm Selection |  | Algorithmenauswahl |  |
-| **A** - data Adaption |  | `scikit-learn` Preprocessing |  |
-| **A** - parameter Adjustment |  | `mlflow` & `scikit-learn` Integration |  |
-| **C** - Conclusion & **C**omparison |  | Analyse von `mlflow`-Daten |  |
-| **K** - Knowledge **T**ransfer |  | `streamlit`-Dashboard |  |
-| **K** - Knowledge **T**ransfer |  | Dokumentation, Übersetzung |  | 
+| **A** - Algorithm Selection | GitHub Copilot | Auswahl und Implementierung von Regressionsmodellen (`Ridge`, `RandomForest`) in `A-Phase.ipynb`. Vergleich von linearen und nicht-linearen Ansätzen. | "Welche Scikit-Learn Modelle eignen sich für Zeitreihenvorhersage mit wenigen Datenpunkten? Erstelle einen Vergleich." |
+| **A** - data Adaption | GitHub Copilot | Feature Engineering: Erstellung von Lag-Features und Rolling-Averages zur Abbildung von klimatischer Trägheit. | "Erzeuge Lag-Features für CO2 (1, 3, 5 Jahre) in Pandas, um verzögerte Temperatureffekte zu modellieren." |
+| **A** - parameter Adjustment | GitHub Copilot | Hyperparameter-Tuning mittels `GridSearchCV` und `TimeSeriesSplit` zur Vermeidung von Data Leakage. | "Wie verhindere ich Data Leakage bei der Cross-Validation von Zeitreihen? Implementiere TimeSeriesSplit für Ridge." |
+| **C** - Conclusion & Comparison | GitHub Copilot | (Geplant) Bewertung der Modellgüte und Selektion des finalen Modells. | "Vergleiche die RMSE-Werte der Modelle und visualisiere die Residuen." |
+| **K** - Knowledge Transfer | GitHub Copilot | Erstellung von verständlicher Dokumentation (`README.md`, `GLOSSARY.md`) und Vorbereitung der Streamlit-App. | "Erstelle ein Glossar für Nicht-Experten, das Begriffe wie 'RMSE' und 'Hitzetag' einfach erklärt." | 
 
 ## Verwendete Datensätze
 

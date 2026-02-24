@@ -1,94 +1,83 @@
 # 🌍 Degrees of No Return
 
-> **Lokale Klimarisiken sichtbar machen.** > Eine interaktive WebApp, die komplexe globale Klimamodelle in lokal verständliche, visuelle Risikobilder übersetzt.
+## Über das Projekt
+„Degrees of No Return“ ist ein Machine-Learning-Projekt, das abstrakte globale Klimamodelle in lokal verständliche Risikobilder übersetzt. Der Fokus liegt darauf, Entscheidungsträgern (wie Stadtplanern oder Immobilienbesitzern) konkrete Vorhersagen zu **lokalen Hitzetagen** und **Überflutungsrisiken** bis zum Jahr 2050 zu liefern.
 
-## 📖 Über das Projekt
-Der Klimawandel wird oft über globale Kennzahlen (z. B. durchschnittliche Erderwärmung, globale Meeresspiegelanstiege) diskutiert. Für lokale Entscheidungsträger stellt sich jedoch die Frage: **Was bedeutet das konkret hier vor Ort?**
+Anstatt nur globale Durchschnittswerte zu betrachten, bricht dieses Projekt die Daten herunter: Was bedeutet die Erderwärmung konkret für meine Stadt?
 
-„Degrees of No Return“ setzt genau hier an. Das Projekt nutzt historische Klimadaten und Machine-Learning-Modelle, um globale Emissionsszenarien auf eine lokale Ebene herunterzubrechen. Es prognostiziert **Überflutungsrisiken** und die **Häufigkeit von Hitzetagen** bis zum Jahr 2050 und macht diese durch eine interaktive [Streamlit](https://streamlit.io/)-App für Nicht-Experten intuitiv greifbar.
+## Installation & Einrichtung
 
-### 🎯 Zielgruppe
-* **Kommunale Stadt- und Raumplaner:** Entwicklung von Anpassungsstrategien und Schutz von Infrastruktur.
-* **Versicherungsanalysten:** Datenbasierte Quantifizierung von Klimarisiken in Portfolios.
-* **Private Immobilienbesitzer:** Einschätzung der zukünftigen Betroffenheit des eigenen Eigentums.
+Folgen Sie diesen Schritten, um die Entwicklungsumgebung einzurichten:
 
----
+1.  **Repository klonen**
+    ```bash
+    git clone <repository-url>
+    cd Streamlit-App
+    ```
 
-## ✨ Features (Geplant/In Entwicklung)
-* **🗺️ Dynamische Weltkarte:** Stufenloser Zoom von globalen Klimamustern bis auf die lokale Ebene (Quartiersansicht).
-* **📊 Lokale Schlüsselkennzahlen:** Echtzeit-Berechnung von erwarteten Temperaturänderungen, jährlichen Hitzetagen und potenziell überfluteten Flächenanteilen.
-* **⏳ Zeit-Slider:** Intuitive Visualisierung der historischen Entwicklung und der Prognosen bis 2050.
-* **🔀 Szenario-Switch:** Direkter Vergleich zwischen einem „Weiter-wie-bisher“-Emissionspfad und ehrgeizigen Klimaziel-Szenarien.
+2.  **Virtuelle Umgebung erstellen (Optional, aber empfohlen)**
+    ```bash
+    python -m venv .venv
+    # Windows:
+    .venv\Scripts\activate
+    # Mac/Linux:
+    source .venv/bin/activate
+    ```
 
----
+3.  **Abhängigkeiten installieren**
+    Installieren Sie alle benötigten Pakete über die `requirements.txt`:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## 💡 Methodik: Der QUAAACK-Prozess
-Die Entwicklung dieses Projekts folgt einem strukturierten, iterativen Vorgehen, das als **QUAAACK-Prozess** bezeichnet wird. Der Name ist teils ein Akronym für die einzelnen Phasen, teils eine Anspielung auf die Methode des „Rubber Duck Debugging“ – die Notwendigkeit, ein Problem klar zu formulieren, was in diesem Projekt durch detaillierte Anweisungen an einen KI-Assistenten (siehe `AGENT.md`) geschieht.
+4.  **Jupyter Notebooks starten**
+    Um die Analysephasen (Q, U, A) anzusehen oder auszuführen:
+    ```bash
+    jupyter notebook
+    ```
 
-Der Prozess gliedert sich in folgende Phasen:
+## 🗂️ Verwendete Datensätze
 
-*   **Q – Question (Fragestellung):** Klare Definition der zentralen Forschungsfragen und Projektziele.
-*   **U – Understanding (Datenverständnis):** Explorative Analyse der Rohdaten zur Identifikation von Mustern und zur Qualitätsprüfung (siehe `U-Phase.ipynb`).
-*   **A – Architecture (Architektur):** Konzeption des Lösungsansatzes, der ML-Modelle und der App-Struktur (siehe `C-Phase.ipynb`).
-*   **A – Agent-driven Development (Agentengestützte Entwicklung):** Einsatz von KI-Werkzeugen zur Beschleunigung der Implementierung, gesteuert durch klare Prompts und Richtlinien (`AGENT.md`).
-*   **A – Application (Anwendungsentwicklung):** Programmierung der eigentlichen Streamlit-WebApp und der dazugehörigen Daten-Pipelines.
-*   **C – Check (Überprüfung):** Kontinuierliche Evaluation der Modellergebnisse, Code-Reviews und Funktionstests.
-*   **K – Kommunikation (Kommunikation):** Finale, verständliche Aufbereitung und Visualisierung der Ergebnisse in der interaktiven Anwendung.
+Das Projekt stützt sich ausschließlich auf validierte, wissenschaftliche "Single Source of Truth"-Datenquellen, um maximale Glaubwürdigkeit zu gewährleisten:
 
-Dieser Prozess stellt sicher, dass die Entwicklung transparent, nachvollziehbar und eng an den wissenschaftlichen und kommunikativen Zielen des Projekts ausgerichtet ist.
+*   **Atmosphäre (CO₂): `co2_mm_mlo.csv`**
+    *   *Quelle:* NOAA Global Monitoring Laboratory (GML) – Mauna Loa Observatorium.
+    *   *Beschreibung:* Die längste kontinuierliche Messreihe der atmosphärischen CO₂-Konzentration der Welt ("Keeling-Kurve"). Sie dient als zentraler Indikator für den menschgemachten Treibhauseffekt.
 
----
+*   **Meeresspiegel: `epa_sea_level.csv`**
+    *   *Quelle:* US Environmental Protection Agency (EPA) / CSIRO / NOAA.
+    *   *Beschreibung:* Historische Daten zum globalen absoluten Meeresspiegelanstieg seit 1880. Dieser Datensatz kombiniert Pegelmessungen und moderne Satellitendaten.
 
-## 🗂️ Datengrundlage
-Das Projekt stützt sich auf validierte, renommierte und offene Datenquellen der Klimaforschung:
-* **Temperatur:** Earth Surface Temperature Dataset (Berkeley Earth) & GISS Surface Temperature Analysis (NASA)
-* **CO₂-Konzentration:** Mauna-Loa-Observatorium (NOAA)
-* **Meeresspiegel:** NASA Sea Level Change Data & IPCC-Szenarien
-* **Topographie / Höhenmodelle (DEM):** SRTM & Copernicus DEM
+*   **Temperatur: `gistemp1200_GHCNv4_ERSSTv5.nc`**
+    *   *Quelle:* NASA Goddard Institute for Space Studies (GISS).
+    *   *Beschreibung:* Ein hochkomplexer, rasterbasierter Datensatz (NetCDF), der monatliche globale Oberflächentemperaturen und Anomalien speichert. Er ist der Goldstandard für die Analyse der globalen Erwärmung.
 
----
+*   **Topographie: Copernicus DEM (GLO-30)**
+    *   *Quelle:* ESA / OpenTopography.
+    *   *Beschreibung:* Ein digitales Oberflächenmodell der Erde mit einer extrem hohen Auflösung von 30 Metern. Es ist essenziell, um lokale Überflutungsrisiken (z.B. "Welche Straßen stehen unter Wasser?") präzise zu berechnen.
 
-## 🛠️ Repository-Struktur
-* `data/` - Enthält die Rohdaten (NetCDF, CSV). *Hinweis: Große GeoTIFFs oder NetCDF-Dateien sind ggf. von der Versionskontrolle ausgeschlossen (`.gitignore`).*
-* `U-Phase.ipynb` - **Understanding the Data:** Explorative Datenanalyse (EDA) und Untersuchung der Rohdatenstrukturen.
-* `C-Phase.ipynb` - **Concept Phase:** Konzeptionelle Ausarbeitung und erste Methodentests.
-* `AGENT.md` - System-Prompt und Leitfaden für KI-gestützte Entwicklungsarbeit an diesem Projekt.
-* `AI_TOOL_DISCLOSURE.md` - Transparenzhinweis zur Nutzung von KI-Tools im Entwicklungsprozess.
+## Der QUA³CK-Prozess (Methodik)
 
----
+Wir arbeiten nach dem **QUA³CK-Prozessmodell** (gesprochen: "Quack"). Dies stellt sicher, dass wir wissenschaftlich sauber von der Frage zur Lösung kommen. Die Phasen sind in entsprechenden Jupyter Notebooks dokumentiert:
 
-## 🚀 Installation & Setup
+### 1. [Q-Phase: Question (Fragestellung)](Q-Phase.ipynb)
+Hier definieren wir das "Warum?".
+*   *Inhalt:* Definition der Forschungsfragen, Identifikation der Zielgruppen (Stadtplaner, Versicherer) und Festlegung der harten Erfolgsmetriken (z.B. RMSE < 0,2°C).
 
-Da sich das Projekt noch in einer frühen Phase befindet, liegt der Fokus aktuell auf der Datenexploration in den Jupyter Notebooks. 
+### 2. [U-Phase: Understanding the Data (Datenverständnis)](U-Phase.ipynb)
+Hier lernen wir unsere Rohdaten kennen.
+*   *Inhalt:* Explorative Datenanalyse (EDA), Prüfung der Datenqualität, Visualisierung erster Trends und Bereinigung von Fehlwerten.
 
-### Voraussetzungen
-* Python 3.9+
-* Git
+### 3. [A-Phasen: Algorithm, Adaptation, Adjustment (Modellierung)](A-Phase.ipynb)
+Das Herzstück des maschinellen Lernens – aufgeteilt in drei Schritte (A³):
+*   **A1 – Algorithm Selection:** Auswahl des passenden Modells (z.B. Ridge Regression).
+*   **A2 – Adapting Features:** Anpassung der Daten (z.B. Verzögerungseffekte/Lag-Features einbauen), damit das Modell die Trägheit des Klimas versteht.
+*   **A3 – Adjusting Hyperparameters:** Feinjustierung der Modelleinstellungen für maximale Präzision.
 
-### Lokale Umgebung einrichten
-1. **Repository klonen:**
-   ```bash
-   git clone https://github.com/noahrsn/Degrees-of-No-Return-App
-   cd degrees-of-no-return
+### 4. C-Phase: Conclude (Schlussfolgerung)
+*   *Status:* (In Entwicklung)
+*   *Inhalt:* Finale Bewertung der trainierten Modelle und Entscheidung für das beste Setup.
 
-2. **Virtuelle Umgebung erstellen und aktivieren:**
-   ```bash
-   python -m venv venv
-   # Windows:
-   venv\Scripts\activate
-   # macOS/Linux:
-   source venv/bin/activate
-
-3. **Abhängigkeiten installieren:**
-   ```bash
-   pip install -r requirements.txt
-
-3. **Jupyter Notebooks starten:**
-   ```bash
-   jupyter notebook
-
----
-
-## 🤝 Mitwirken
-
-Beiträge sind willkommen! Wenn du Ideen zur Verbesserung der ML-Modelle, der Daten-Pipelines oder der Streamlit-App hast, öffne gerne ein Issue oder erstelle einen Pull Request.
+### 5. K-Phase: Knowledge Transfer (Wissenstransfer)
+*   *Status:* (Geplant)
+*   *Inhalt:* Aufbau der **Streamlit WebApp**. Übersetzung der komplexen Zahlen in interaktive Karten und Regler für den Endanwender.
