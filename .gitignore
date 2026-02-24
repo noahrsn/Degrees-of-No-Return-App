@@ -2,3 +2,4 @@ anforderungen.txt
 documentation/conception_old.ipynb
 __pycache__/
 .venv/
+mlflow.db

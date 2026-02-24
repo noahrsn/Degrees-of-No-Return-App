@@ -23,10 +23,10 @@ Alle Ausgaben, UI-Konzepte und Erklärungen müssen auf diese primär **deutschs
 
 ## 4. Datengrundlage (Single Source of Truth)
 Du arbeitest ausschließlich mit folgenden validierten und vertrauenswürdigen Datenquellen:
-* **Temperatur:** Earth Surface Temperature Dataset (Berkeley Earth, Kaggle), GISS Surface Temperature Analysis (NASA).
+* **Temperatur:** GISS Surface Temperature Analysis (NASA).
 * **CO₂-Konzentration:** Mauna-Loa-Observatorium (NOAA).
 * **Meeresspiegel:** NASA Sea Level Change Data, IPCC-Szenarien.
-* **Topographie/Höhenmodelle:** SRTM (OpenTopography), Copernicus DEM (zweistelliger Meterbereich).
+* **Topographie/Höhenmodelle:** Copernicus DEM (zweistelliger Meterbereich).
 
 ## 5. Machine-Learning-Prozess & Modelllogik
 Beim Schreiben von Code oder Entwerfen von Architekturen gelten folgende Metriken und Workflows:
@@ -48,3 +48,33 @@ Das Endprodukt ist eine **Streamlit-WebApp**. Bei der Frontend-Entwicklung sind 
 * **Wissenschaftlich präzise, aber verständlich:** Nutze in Erklärungen Fachbegriffe dort, wo sie nötig sind, aber erkläre sie im Kontext der Anwendung.
 * **Code-Qualität:** Schreibe sauberen, modularen und gut dokumentierten Python-Code (insbesondere für Pandas, Scikit-Learn/TensorFlow, GeoPandas und Streamlit).
 * **Fokus auf Lokalisierung:** Denke bei der Modellierung immer an den Downscaling-Prozess – globale Daten *müssen* auf lokale Koordinaten anwendbar sein.
+
+### 8. Das QUA³CK-Prozessmodell: Methodischer Rahmen für „Degrees of No Return“
+
+**Q – Question (Fragestellung)**
+* **Im Prozess:** Definition des konkreten Problems, der Zielgruppe und der quantitativen Erfolgsmetriken (KPIs) sowie des Deployment-Ziels.
+* **Agenten-Fokus:** Das Ziel ist die Übersetzung globaler Klimamodelle in lokale Überflutungs- und Hitzemodelle, die für Nicht-Experten greifbar sind. Die Zielgruppe (Planer, Analysten, Immobilienbesitzer) und die harten KPIs (RMSE < 0,2 °C, 85 % räumliche Übereinstimmung) bilden den unverrückbaren Rahmen der Entwicklung.
+
+**U – Understanding the Data (Datenverständnis)**
+* **Im Prozess:** Explorative Datenanalyse (EDA) zur Gewinnung von Einblicken in Datenstruktur, -qualität und -verteilung als Basis für die Modellentwicklung.
+* **Agenten-Fokus:** Konsequente Nutzung der validierten "Single Source of Truth" (Berkeley Earth, NASA, NOAA, SRTM). Historische Daten müssen bereinigt und zeitlich synchronisiert werden, um sie für das spätere lokale Downscaling nutzbar zu machen.
+
+**A1 – Algorithm Selection (Algorithmenauswahl)**
+* **Im Prozess:** Auswahl geeigneter Machine-Learning-Algorithmen basierend auf der Problemstellung und den Dateneigenschaften.
+* **Agenten-Fokus:** Auswahl passender Zeitreihenmodelle für die Temperaturprognose und räumlicher Verarbeitungsmodelle für Überflutungen. Wichtigste Regel: Keine Black-Box-Modelle; der Ansatz muss stets wissenschaftlich nachvollziehbar und validierbar bleiben.
+
+**A2 – Adapting Features (Feature-Anpassung)**
+* **Im Prozess:** Anpassung und Transformation von Merkmalen (Feature Engineering) zur Verbesserung der Modellleistung.
+* **Agenten-Fokus:** Starker Fokus auf den Downscaling-Prozess. Globale Parameter, Topographiedaten und Emissions-Zeitreihen müssen so transformiert und verschmolzen werden, dass sie präzise auf lokale Koordinaten anwendbar sind.
+
+**A3 – Adjusting Hyperparameters (Hyperparameter-Optimierung)**
+* **Im Prozess:** Feinabstimmung der Modellparameter zur Optimierung der finalen Performance.
+* **Agenten-Fokus:** Systematisches Tuning der Modelle, bis die Zielvorgaben des Projekts zwingend erreicht werden. Die Temperaturmodelle müssen einen RMSE < 0,2 °C erreichen, die Überflutungsmodelle eine Übereinstimmung von mindestens 85 % mit bestehenden Gefahrenkarten.
+
+**C – Conclude and Compare (Schlussfolgerung und Vergleich)**
+* **Im Prozess:** Bewertung und Auswahl des optimalen Modells anhand definierter Metriken, um die beste Lösung zu identifizieren.
+* **Agenten-Fokus:** Validierung beider Einzelmodelle (Überflutung und Hitze) und deren Verschmelzung zu einem integrierten lokalen Risikobild. Es muss sichergestellt werden, dass Extremereignisse unter verschiedenen Emissionspfaden korrekt miteinander verglichen werden können.
+
+**K – Knowledge Transfer (Wissenstransfer)**
+* **Im Prozess:** Dokumentation, Kommunikation der Ergebnisse und Überführung in die produktive Anwendung (z.B. Web-App).
+* **Agenten-Fokus:** Direkte Übersetzung der ML-Pipelines in verständliche Endnutzer-KPIs (z. B. "Anzahl Hitzetage", "überflutete Fläche in %") und die nahtlose Integration in das Streamlit-Frontend. Features wie die dynamische Weltkarte, der Zeit-Slider und der Szenario-Switch müssen implementiert werden, um den maximalen Anwendungsnutzen zu generieren.
