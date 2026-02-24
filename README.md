@@ -22,6 +22,23 @@ Der Klimawandel wird oft über globale Kennzahlen (z. B. durchschnittliche Erder
 
 ---
 
+## 💡 Methodik: Der QUAAACK-Prozess
+Die Entwicklung dieses Projekts folgt einem strukturierten, iterativen Vorgehen, das als **QUAAACK-Prozess** bezeichnet wird. Der Name ist teils ein Akronym für die einzelnen Phasen, teils eine Anspielung auf die Methode des „Rubber Duck Debugging“ – die Notwendigkeit, ein Problem klar zu formulieren, was in diesem Projekt durch detaillierte Anweisungen an einen KI-Assistenten (siehe `AGENT.md`) geschieht.
+
+Der Prozess gliedert sich in folgende Phasen:
+
+*   **Q – Question (Fragestellung):** Klare Definition der zentralen Forschungsfragen und Projektziele.
+*   **U – Understanding (Datenverständnis):** Explorative Analyse der Rohdaten zur Identifikation von Mustern und zur Qualitätsprüfung (siehe `U-Phase.ipynb`).
+*   **A – Architecture (Architektur):** Konzeption des Lösungsansatzes, der ML-Modelle und der App-Struktur (siehe `C-Phase.ipynb`).
+*   **A – Agent-driven Development (Agentengestützte Entwicklung):** Einsatz von KI-Werkzeugen zur Beschleunigung der Implementierung, gesteuert durch klare Prompts und Richtlinien (`AGENT.md`).
+*   **A – Application (Anwendungsentwicklung):** Programmierung der eigentlichen Streamlit-WebApp und der dazugehörigen Daten-Pipelines.
+*   **C – Check (Überprüfung):** Kontinuierliche Evaluation der Modellergebnisse, Code-Reviews und Funktionstests.
+*   **K – Kommunikation (Kommunikation):** Finale, verständliche Aufbereitung und Visualisierung der Ergebnisse in der interaktiven Anwendung.
+
+Dieser Prozess stellt sicher, dass die Entwicklung transparent, nachvollziehbar und eng an den wissenschaftlichen und kommunikativen Zielen des Projekts ausgerichtet ist.
+
+---
+
 ## 🗂️ Datengrundlage
 Das Projekt stützt sich auf validierte, renommierte und offene Datenquellen der Klimaforschung:
 * **Temperatur:** Earth Surface Temperature Dataset (Berkeley Earth) & GISS Surface Temperature Analysis (NASA)
