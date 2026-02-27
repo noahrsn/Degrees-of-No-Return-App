@@ -6,47 +6,62 @@ Dieses Glossar erklärt wichtige Begriffe, Methoden und Metriken aus dem Projekt
 
 **Hitzetag**
 Ein meteorologischer Begriff. Ein Tag gilt dann als Hitzetag, wenn die **Tageshöchsttemperatur 30 °C erreicht oder überschreitet**. In unseren Modellen prognostizieren wir die jährliche Anzahl dieser Tage, da sie ein direkter Indikator für Gesundheitsrisiken und städtische Hitzeinseln sind.
+*   *Quelle:* [Deutscher Wetterdienst (DWD) - Wetterlexikon: Hitzetag](https://www.dwd.de/DE/service/lexikon/Functions/glossar.html?lv2=101094&lv3=101192)
 
-**Emissionspfade (Szenarien)**
-Zukunftsprojektionen darüber, wie viel Treibhausgas die Menschheit in den kommenden Jahren ausstoßen wird. Das Projekt unterscheidet oft zwischen einem „Weiter-wie-bisher“-Szenario (hohe Emissionen) und einem „Klimaziel“-Szenario (starke Reduktion der Emissionen).
+**Emissionspfade (Szenarien / SSPs)**
+Zukunftsprojektionen darüber, wie viel Treibhausgas die Menschheit in den kommenden Jahren ausstoßen wird. Die Wissenschaft nutzt dafür sogenannte *Shared Socioeconomic Pathways (SSPs)*. Das Projekt unterscheidet oft zwischen einem „Weiter-wie-bisher“-Szenario (hohe Emissionen, z.B. SSP5-8.5) und einem „Klimaziel“-Szenario (starke Reduktion der Emissionen, z.B. SSP1-2.6).
+*   *Quelle:* [IPCC (Intergovernmental Panel on Climate Change) - AR6 Scenarios](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter_01.pdf)
 
 **Downscaling**
-Das "Herunterrechnen" von globalen Daten auf eine lokale Ebene. Ein globales Klimamodell sagt vielleicht vorher, dass die Erde im Schnitt 1 Grad wärmer wird. Downscaling berechnet, was das *konkret* für z.B. Berlin oder München bedeutet (da sich Landmassen schneller erwärmen als Ozeane).
+Das "Herunterrechnen" von globalen Daten auf eine lokale Ebene. Ein globales Klimamodell sagt vielleicht vorher, dass die Erde im Schnitt 1 Grad wärmer wird. Downscaling berechnet, was das *konkret* für z.B. Berlin oder München bedeutet (da sich Landmassen schneller erwärmen als Ozeane und lokale Topografie eine Rolle spielt).
+*   *Quelle:* [Climate Data Guide (NCAR) - Statistical Downscaling](https://climatedataguide.ucar.edu/climate-data/statistical-downscaling)
+
+**Temperaturanomalie**
+Die Abweichung der Temperatur von einem langjährigen Durchschnittswert (Referenzperiode, z.B. 1951–1980). In der Klimaforschung arbeitet man fast ausschließlich mit Anomalien statt mit absoluten Temperaturen, da diese robuster gegenüber Messfehlern einzelner Stationen sind und globale Trends besser abbilden.
+*   *Quelle:* [NASA Earth Observatory - Why Anomalies?](https://earthobservatory.nasa.gov/world-of-change/DecadalTemp)
 
 ---
 
 ## 🤖 Machine Learning & Data Science (Die „A-Phasen“)
 
 **Algorithmus**
-In unserem Kontext ein „Rezept“ für den Computer. Es ist eine Rechenvorschrift, die aus Daten lernt. Wir testen verschiedene Algorithmen (z.B. *Lineare Regression*, *Random Forest*), um zu sehen, welcher die Zusammenhänge zwischen CO₂ und Temperatur am besten versteht.
+In unserem Kontext ein „Rezept“ für den Computer. Es ist eine mathematische Rechenvorschrift, die aus historischen Daten lernt. Wir testen verschiedene Algorithmen (z.B. *Lineare Regression*, *Random Forest*), um zu sehen, welcher die Zusammenhänge zwischen CO₂ und Temperatur am besten versteht.
+*   *Quelle:* [IBM - What is Machine Learning?](https://www.ibm.com/topics/machine-learning)
 
-**Training & Testen**
-Wir geben dem Modell nie *alle* Daten zum Lernen. Wir behalten einen Teil (die jüngsten Jahre) zurück („Testdaten“). Das Modell lernt mit den alten Daten („Trainingsdaten“) und muss dann beweisen, dass es die Testdaten korrekt vorhersagen kann, ohne sie vorher gesehen zu haben.
+**Training & Testen (Train-Test-Split)**
+Wir geben dem Modell nie *alle* Daten zum Lernen. Wir behalten einen Teil (z.B. die jüngsten 20% der Jahre) zurück („Testdaten“). Das Modell lernt mit den alten Daten („Trainingsdaten“) und muss dann beweisen, dass es die Testdaten korrekt vorhersagen kann, ohne sie vorher gesehen zu haben. Dies verhindert, dass das Modell die Daten nur auswendig lernt.
+*   *Quelle:* [Scikit-Learn Documentation - Cross-validation](https://scikit-learn.org/stable/modules/cross_validation.html)
 
 **Features (Merkmale)**
-Die „Zutaten“, mit denen wir das Modell füttern.
-*   *Beispiel:* Um die Temperatur von morgen vorherzusagen, könnten Features sein: „Temperatur heute“, „CO₂-Konzentration aktuell“, „Jahreszeit“.
-*   **Lag-Features (Verzögerung):** Ein spezielles Feature. Da das Klima träge ist (wie ein schwerer Güterzug), wirkt sich CO₂ von heute erst später voll aus. Lag-Features berücksichtigen diese Verzögerung (z.B. „CO₂-Wert von vor 10 Jahren“).
+Die „Zutaten“, mit denen wir das Modell füttern. Es sind die messbaren Eigenschaften, die zur Vorhersage genutzt werden.
+*   *Beispiel:* Um die Temperatur von morgen vorherzusagen, könnten Features sein: „Temperatur heute“, „CO₂-Konzentration aktuell“.
+*   **Lag-Features (Verzögerung):** Ein spezielles Feature. Da das Klima träge ist (wie ein schwerer Güterzug), wirkt sich CO₂ von heute erst später voll aus. Lag-Features berücksichtigen diese Verzögerung (z.B. „CO₂-Wert von vor 5 Jahren“).
+*   *Quelle:* [Machine Learning Mastery - Feature Engineering for Time Series](https://machinelearningmastery.com/basic-feature-engineering-time-series-data-python/)
 
 **Hyperparameter**
-Die „Einstellungen am Backofen“. Während der Algorithmus das Rezept ist, sind Hyperparameter die Feinjustierungen (z.B. wie schnell soll das Modell lernen? Wie komplex darf die Formel sein?). Wir optimieren diese, um das bestmögliche Ergebnis zu erzielen.
+Die „Einstellungen am Backofen“. Während der Algorithmus das Rezept ist, sind Hyperparameter die Feinjustierungen, die *vor* dem Training festgelegt werden müssen (z.B. wie stark soll das Modell bestraft werden, wenn es zu komplex wird? = `alpha` bei der Ridge-Regression). Wir optimieren diese systematisch (z.B. per Grid Search), um das bestmögliche Ergebnis zu erzielen.
+*   *Quelle:* [Towards Data Science - Understanding Hyperparameters](https://towardsdatascience.com/understanding-hyperparameters-and-its-optimisation-techniques-f0debba07568)
 
-**Overfitting (Überanpassung)**
-Ein häufiges Problem. Das Modell lernt die Trainingsdaten *zu* gut auswendig, anstatt die allgemeinen Regeln zu verstehen.
-*   *Metapher:* Ein Schüler, der die Lösungen für die Mathe-Hausaufgabe auswendig lernt, aber in der Klassenarbeit (neue Aufgaben) versagt. Wir vermeiden das durch Techniken wie *Cross-Validation*.
+**Overfitting (Überanpassung) & Data Leakage**
+*   **Overfitting:** Das Modell lernt die Trainingsdaten *zu* gut auswendig (inklusive Rauschen und Fehlern), anstatt die allgemeinen Regeln zu verstehen. Es versagt dann bei neuen Daten.
+*   **Data Leakage:** Ein schwerer Fehler, bei dem Informationen aus den Testdaten versehentlich ins Training fließen (z.B. durch falsches Skalieren vor dem Aufteilen). Das Modell "schummelt" und wirkt besser, als es ist.
+*   *Quelle:* [Kaggle - Data Leakage](https://www.kaggle.com/code/alexisbcook/data-leakage)
 
 ---
 
 ## 📊 Messgrößen der Genauigkeit
 
 **RMSE (Root Mean Square Error)**
-Unser wichtigstes Maß für die Genauigkeit bei Temperaturvorhersagen.
-*   Er gibt an, um wie viel Grad das Modell im Durchschnitt daneben liegt.
+Unser wichtigstes Maß für die Genauigkeit bei Temperatur- und Meeresspiegelvorhersagen.
+*   Er berechnet die Wurzel aus dem Durchschnitt der quadrierten Vorhersagefehler.
+*   Er gibt an, um wie viel Grad (oder cm) das Modell im Durchschnitt daneben liegt. Große Ausreißer werden durch das Quadrieren stärker bestraft.
 *   **Ziel:** Wir wollen einen RMSE von unter **0,2 °C**. Das bedeutet, unsere Vorhersage weicht durchschnittlich weniger als 0,2 Grad vom tatsächlichen Wert ab.
+*   *Quelle:* [Statology - RMSE](https://www.statology.org/root-mean-square-error-python/)
 
-**R² (Bestimmtheitsmaß)**
-Ein Wert zwischen 0 und 1 (oder 0% und 100%). Er sagt aus, wie viel Prozent der Schwankungen in den Daten unser Modell erklären kann.
-*   Ein R² von 0,95 bedeutet: Das Modell erklärt 95% der Temperaturveränderungen korrekt.
+**R² (Bestimmtheitsmaß / R-Squared)**
+Ein statistischer Wert zwischen 0 und 1 (oder 0% und 100%). Er sagt aus, wie viel Prozent der Varianz (Schwankungen) in der Zielgröße durch unser Modell erklärt werden kann.
+*   Ein R² von 0,95 bedeutet: Das Modell erklärt 95% der Temperaturveränderungen korrekt durch die eingegebenen Features (wie CO₂).
+*   *Quelle:* [Investopedia - R-Squared](https://www.investopedia.com/terms/r/r-squared.asp)
 
 ---
 
