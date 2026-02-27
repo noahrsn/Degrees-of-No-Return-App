@@ -56,6 +56,16 @@ Das Projekt stützt sich ausschließlich auf validierte, wissenschaftliche "Sing
     *   *Quelle:* ESA / OpenTopography.
     *   *Beschreibung:* Ein digitales Oberflächenmodell der Erde mit einer extrem hohen Auflösung von 30 Metern. Es ist essenziell, um lokale Überflutungsrisiken (z.B. "Welche Straßen stehen unter Wasser?") präzise zu berechnen.
 
+## ⚠️ Grenzen und Schwächen des Modells
+
+Trotz der Verwendung hochwertiger Datenquellen unterliegt das Projekt methodischen und technischen Limitationen, die bei der Interpretation der Ergebnisse zwingend beachtet werden müssen:
+
+1.  **Räumliche Auflösung (Topographie):** Das Copernicus DEM bietet eine Auflösung von 30 Metern. Dies reicht für Quartiersplanungen, ist jedoch **zu grob für parzellengenaue Aussagen** (z. B. ob ein spezifischer Keller überflutet wird).
+2.  **Fokus der Überflutungsdaten:** Das Modell basiert auf globalen Meeresspiegelprojektionen und bildet somit primär **küstennahe Überflutungen** ab. Binnenhochwasser durch Starkregen (pluvial) oder übertretende Flüsse (fluvial) werden in der aktuellen Version nicht ausreichend abgebildet.
+3.  **Grenzen von Machine Learning:** ML-Modelle lernen aus historischen Daten. Sie können **Kipppunkte (Tipping Points)** und nie dagewesene, nicht-lineare Klimaextreme nur schwer vorhersagen, da diese in der Vergangenheit nicht existierten.
+4.  **Lokale Mikroklimata:** Das Downscaling globaler Temperaturdaten stößt in stark versiegelten Städten an seine Grenzen. Der **städtische Hitzeinseleffekt (Urban Heat Island)** wird ohne zusätzliche lokale Parameter (wie Versiegelungsgrad) tendenziell unterschätzt.
+5.  **Umgang mit Unsicherheiten:** Klimaprognosen sind Wahrscheinlichkeiten, keine absoluten Gewissheiten. Die App muss daher **Konfidenzintervalle** ausweisen, um eine Scheingenauigkeit zu vermeiden.
+
 ## Der QUA³CK-Prozess (Methodik)
 
 Wir arbeiten nach dem **QUA³CK-Prozessmodell** (gesprochen: "Quack"). Dies stellt sicher, dass wir wissenschaftlich sauber von der Frage zur Lösung kommen. Die Phasen sind in entsprechenden Jupyter Notebooks dokumentiert:

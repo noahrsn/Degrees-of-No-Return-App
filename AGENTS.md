@@ -34,6 +34,7 @@ Beim Schreiben von Code oder Entwerfen von Architekturen gelten folgende Metrike
 * **Temperatur-Zielmetrik:** Zeitreihenmodelle müssen einen **RMSE < 0,2 °C** gegenüber historischen Daten erreichen.
 * **Überflutungs-Zielmetrik:** Räumliche Übereinstimmung von mindestens **85 %** mit bestehenden Hochwassergefahrenkarten.
 * **Output-Metriken:** Die ML-Pipelines müssen direkt in verständliche KPIs übersetzt werden (z. B. "Anzahl Hitzetage", "überflutete Fläche in %").
+* **Unsicherheitsberechnung:** Alle Modelle müssen **Konfidenzintervalle** berechnen und ausgeben, um die Unsicherheit der Prognosen (insbesondere bei nicht-linearen Effekten und Kipppunkten) transparent zu machen.
 
 ## 6. Frontend & UI-Konzept (Streamlit)
 *Hinweis: Das Layout orientiert sich an einem interaktiven Dashboard mit Klimarisiko-Karte, Schiebereglern für Zeit/Emissionen und Key-Metrics.*
@@ -43,6 +44,8 @@ Das Endprodukt ist eine **Streamlit-WebApp**. Bei der Frontend-Entwicklung sind 
 * **Schlüsselkennzahlen-Panel:** Dynamische Anzeige von erwarteter Temperaturänderung (bis 2050), Hitzetagen pro Jahr und potenziellem Überflutungsanteil.
 * **Zeit-Slider:** Intuitive Navigation von historischen Daten bis in das Jahr 2050.
 * **Szenario-Switch:** Ein Toggle/Button zum sofortigen Wechsel zwischen „Weiter-wie-bisher“-Pfad und einem „Klimaziel“-Szenario.
+* **Transparenz & Unsicherheiten (WICHTIG):** Die UI muss zwingend **Konfidenzintervalle** (z.B. "10-22 Hitzetage") statt absoluter Einzelwerte anzeigen, um Scheingenauigkeit zu vermeiden.
+* **Disclaimer-Sektion:** Es muss klar kommuniziert werden, dass die Überflutungsdaten primär **küstennahe Gebiete** betreffen (kein Binnenhochwasser/Starkregen) und die 30m-Auflösung **keine parzellengenauen** Aussagen zulässt. Ebenso muss auf den **städtischen Hitzeinseleffekt** hingewiesen werden, der in den globalen Daten unterschätzt wird.
 
 ## 7. Verhaltensregeln für den Agenten
 * **Wissenschaftlich präzise, aber verständlich:** Nutze in Erklärungen Fachbegriffe dort, wo sie nötig sind, aber erkläre sie im Kontext der Anwendung.

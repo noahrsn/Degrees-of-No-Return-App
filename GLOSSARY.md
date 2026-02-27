@@ -20,6 +20,19 @@ Das "Herunterrechnen" von globalen Daten auf eine lokale Ebene. Ein globales Kli
 Die Abweichung der Temperatur von einem langjährigen Durchschnittswert (Referenzperiode, z.B. 1951–1980). In der Klimaforschung arbeitet man fast ausschließlich mit Anomalien statt mit absoluten Temperaturen, da diese robuster gegenüber Messfehlern einzelner Stationen sind und globale Trends besser abbilden.
 *   *Quelle:* [NASA Earth Observatory - Why Anomalies?](https://earthobservatory.nasa.gov/world-of-change/DecadalTemp)
 
+**Urban Heat Island (UHI) / Städtischer Hitzeinseleffekt**
+Ein Phänomen, bei dem städtische Gebiete aufgrund von dichter Bebauung, Versiegelung und fehlender Vegetation deutlich wärmer sind als ihr ländliches Umland. Globale Klimamodelle unterschätzen diesen Effekt oft, weshalb lokales Downscaling für Städte besonders komplex ist.
+*   *Quelle:* [U.S. EPA - Heat Island Effect](https://www.epa.gov/heatislands)
+
+**Kipppunkte (Tipping Points)**
+Kritische Schwellenwerte im Klimasystem. Werden sie überschritten, kommt es zu unumkehrbaren und oft abrupten Veränderungen (z.B. Abschmelzen des Grönlandeises). Machine-Learning-Modelle, die nur auf historischen Daten basieren, können solche nie dagewesenen, nicht-linearen Effekte nur schwer vorhersagen.
+*   *Quelle:* [Potsdam-Institut für Klimafolgenforschung (PIK) - Kippelemente](https://www.pik-potsdam.de/de/produkte/infothek/kippelemente)
+
+**Pluviales und Fluviales Hochwasser**
+*   **Pluvial:** Hochwasser durch extremen Starkregen, der die Kanalisation oder Böden überlastet (kann überall auftreten).
+*   **Fluvial:** Hochwasser durch übertretende Flüsse nach langanhaltendem Regen oder Schneeschmelze.
+*   *Hinweis:* Unser Modell fokussiert sich primär auf küstennahe Überflutungen durch Meeresspiegelanstieg und deckt diese Binnenhochwasser-Arten nicht vollständig ab.
+
 ---
 
 ## 🤖 Machine Learning & Data Science (Die „A-Phasen“)
@@ -62,6 +75,10 @@ Unser wichtigstes Maß für die Genauigkeit bei Temperatur- und Meeresspiegelvor
 Ein statistischer Wert zwischen 0 und 1 (oder 0% und 100%). Er sagt aus, wie viel Prozent der Varianz (Schwankungen) in der Zielgröße durch unser Modell erklärt werden kann.
 *   Ein R² von 0,95 bedeutet: Das Modell erklärt 95% der Temperaturveränderungen korrekt durch die eingegebenen Features (wie CO₂).
 *   *Quelle:* [Investopedia - R-Squared](https://www.investopedia.com/terms/r/r-squared.asp)
+
+**Konfidenzintervall (Unsicherheitsbereich)**
+Ein statistischer Bereich, der angibt, mit welcher Wahrscheinlichkeit der wahre Wert innerhalb bestimmter Grenzen liegt. Da Klimaprognosen nie 100% sicher sind, geben wir statt eines absoluten Wertes (z.B. "15 Hitzetage") oft einen Bereich an (z.B. "10 bis 22 Hitzetage mit 90% Wahrscheinlichkeit"). Dies verhindert eine falsche Scheingenauigkeit.
+*   *Quelle:* [Statista - Konfidenzintervall](https://de.statista.com/statistik/lexikon/definition/76/konfidenzintervall/)
 
 ---
 
