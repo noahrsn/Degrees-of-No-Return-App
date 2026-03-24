@@ -1,0 +1,44 @@
+{
+  "project": "Degrees of No Return",
+  "c_phase_completed": true,
+  "temperature_model": {
+    "algorithm": "Ridge",
+    "alpha": 7.9060432109076855,
+    "features": [
+      "co2_deseason",
+      "co2_lag1",
+      "co2_lag3",
+      "co2_lag5",
+      "co2_change",
+      "co2_5yr_mean",
+      "sea_level_cm"
+    ],
+    "n_features": 7,
+    "training_range": "1963–2024",
+    "n_train_points": 62,
+    "rmse_test_C": 0.0832,
+    "r2_test": 0.7795,
+    "mae_test_C": 0.0595,
+    "kpi_rmse_pass": true,
+    "kpi_r2_pass": false,
+    "kpi_mae_pass": true
+  },
+  "sea_level_model": {
+    "algorithm": "Ridge",
+    "alpha": 1.7575106248547894,
+    "features": [
+      "co2_deseason",
+      "co2_5yr_mean",
+      "co2_change"
+    ],
+    "n_features": 3,
+    "training_range": "1963–2024",
+    "n_train_points": 62,
+    "rmse_test_cm": 2.3073,
+    "r2_test": -0.4211,
+    "mae_test_cm": 2.2051,
+    "trend_old_mm_yr": 1.888,
+    "trend_new_mm_yr": 3.02,
+    "ipcc_plausible": true
+  }
+}

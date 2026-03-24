@@ -7,3 +7,6 @@ numpy
 xarray
 netCDF4
 seaborn
+plotly
+joblib
+scipy
