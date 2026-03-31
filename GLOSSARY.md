@@ -82,6 +82,16 @@ Ein statistischer Bereich, der angibt, mit welcher Wahrscheinlichkeit der wahre 
 
 ---
 
+## 🗺️ IT & Geodaten (Die „K-Phase“ / App-Entwicklung)
+
+**Copernicus DEM (GLO-30) & COG**
+Ein digitales Höhenmodell (DEM = Digital Elevation Model) mit einer Auflösung von 30 Metern. In unserem Dashboard verarbeiten wir diese Daten live im modernen *Cloud Optimized GeoTIFF (COG)*-Format direkt aus einer öffentlichen *AWS S3 Public Registry* via `rasterio` und `boto3`. Dies umgeht Rate-Limits offener APIs.
+
+**PyDeck (PolygonLayer)**
+Die 3D-Kartenbibliothek, die wir im Streamlit-Frontend verwenden, um Datenlücken zu schließen und Raster sauber zu visualisieren. Über `PolygonLayer` zeichnen wir ein geografisch exaktes, durchgängiges Raster ohne Lücken oder Verzerrungen (im Gegensatz zu einfachen Zylinder-Säulen oder starren Quadraten).
+
+---
+
 ## 🔄 Prozessmodell: QUA³CK
 
 Wir arbeiten nach dem **QUA³CK-Prozessmodell** (gesprochen: "Quack"). Es ist unser strukturierter Fahrplan, um von der ersten Idee zur fertigen Anwendung zu gelangen. Das "Hoch 3" steht für die drei intensiven Entwicklungsphasen im Bereich Machine Learning.

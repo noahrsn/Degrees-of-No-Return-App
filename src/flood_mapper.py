@@ -1,17 +1,19 @@
 import pydeck as pdk
 import pandas as pd
 import numpy as np
-import requests
 import streamlit as st
-import time
 import json
 import os
+import math
+import rasterio
+from rasterio.session import AWSSession
+from collections import defaultdict
 
 @st.cache_data
 def load_precomputed_cities():
     """
-    Lädt vorberechnete Elevation-Daten für die wichtigsten deutschsprachigen Städte.
-    Diese Daten umgehen das API-Rate-Limit.
+    Lädt vorberechnete Städte (nur für Name, Koordinaten, Beschreibung).
+    Diese Daten umgehen das API-Rate-Limit nicht mehr beim Laden (da wir AWS nutzen).
     """
     json_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'precomputed_cities.json')
     try:
@@ -24,287 +26,217 @@ def load_precomputed_cities():
 def get_precomputed_elevation_data(city_name):
     """
     Holt vorberechnete Elevation-Daten für eine Stadt.
-    Generiert ein dichtes Grid basierend auf den gespeicherten Datenpunkten.
-    Nutzt Inverse Distance Weighting (IDW) für realistische Interpolation.
+    Die Daten im JSON sind bereits als dichtes Grid (35x35) vorberechnet.
     """
-    cities = load_precomputed_cities()
+    return None
+
+def get_copernicus_tile_name(lat, lon):
+    """
+    Berechnet den Namen der Copernicus-Kachel (1x1 Grad) für gegebene Koordinaten.
+    """
+    lat_floor = math.floor(lat)
+    lon_floor = math.floor(lon)
     
-    if city_name not in cities:
-        return None
+    n_or_s = "N" if lat_floor >= 0 else "S"
+    e_or_w = "E" if lon_floor >= 0 else "W"
     
-    city_data = cities[city_name]
-    base_points = city_data['elevation_data']
+    lat_str = f"{abs(lat_floor):02d}"
+    lon_str = f"{abs(lon_floor):03d}"
     
-    # Erweitere die Datenpunkte zu einem dichteren Grid
-    center_lat = city_data['lat']
-    center_lon = city_data['lon']
-    
-    grid_size = 35
-    spread_km = 15.0
-    
-    lat_spread = (spread_km / 111.0) / 2
-    lon_spread = (spread_km / (111.0 * np.cos(np.radians(center_lat)))) / 2
-    
-    lats = np.linspace(center_lat - lat_spread, center_lat + lat_spread, grid_size)
-    lons = np.linspace(center_lon - lon_spread, center_lon + lon_spread, grid_size)
-    
-    grid_data = []
-    
-    # Inverse Distance Weighting (IDW) für realistische Interpolation
-    for lat in lats:
-        for lon in lons:
-            # Berechne gewichteten Durchschnitt basierend auf Distanz zu allen Punkten
-            total_weight = 0
-            weighted_elevation = 0
-            
-            for point in base_points:
-                # Distanz berechnen
-                dist = np.sqrt((lat - point['lat'])**2 + (lon - point['lon'])**2)
-                
-                # Verhindere Division durch 0 (exakte Übereinstimmung)
-                if dist < 0.0001:
-                    weighted_elevation = point['elevation']
-                    total_weight = 1
-                    break
-                
-                # Inverse Distance Weighting (power=2)
-                weight = 1.0 / (dist ** 2)
-                weighted_elevation += point['elevation'] * weight
-                total_weight += weight
-            
-            # Berechne finale Elevation
-            if total_weight > 0:
-                elev = weighted_elevation / total_weight
-            else:
-                elev = base_points[0]['elevation']  # Fallback
-            
-            # ✅ KEIN FILTER - Zeige ALLE Datenpunkte
-            grid_data.append({
-                'lat': lat,
-                'lon': lon,
-                'elevation': float(elev),
-                'geometry': [lon, lat]
-            })
-    
-    return pd.DataFrame(grid_data)
+    # Format z.B.: Copernicus_DSM_COG_10_N53_00_E009_00_DEM
+    tile = f"Copernicus_DSM_COG_10_{n_or_s}{lat_str}_00_{e_or_w}{lon_str}_00_DEM"
+    return f"s3://copernicus-dem-30m/{tile}/{tile}.tif"
 
 @st.cache_data(ttl=3600)
-def get_real_elevation_data(center_lat, center_lon, grid_size=30, spread_km=8.0):
+def get_real_elevation_data(center_lat, center_lon, grid_size=50, spread_km=10.0):
     """
-    Fetches REAL elevation data using the Open-Meteo Free API.
-    Builds a grid around the center point and fetches the true height above sea level.
+    Lädt hochpräzise Höhendaten direkt vom AWS Copernicus DEM S3-Bucket.
     """
-    # WE WILL ALLOW HIGH DENSITY AGAIN. BUT WITH BETTER SLEEP
-    # We remove the "grid_size = min(grid_size, 15)" limitation
-    
     lat_spread = (spread_km / 111.0) / 2
-    lon_spread = (spread_km / (111.0 * np.cos(np.radians(center_lat)))) / 2
+    lon_spread = (spread_km / (111.0 * math.cos(math.radians(center_lat)))) / 2
     
     lats = np.linspace(center_lat - lat_spread, center_lat + lat_spread, grid_size)
     lons = np.linspace(center_lon - lon_spread, center_lon + lon_spread, grid_size)
     
-    # Create coordinate pairs
-    coords = []
-    for lat in lats:
-        for lon in lons:
-            coords.append((lat, lon))
+    # Rasterpunkte erstellen
+    points = []
+    for lt in lats:
+        for ln in lons:
+            points.append((ln, lt))
             
-    # Open-Meteo allows batches, max 100 per request. Using 50 to be safe on URL length.
-    chunk_size = 50
-    elevations = []
+    # Punkte den jeweiligen 1x1 Grad S3-Kacheln zuordnen
+    tiles = defaultdict(list)
+    for ln, lt in points:
+        tile_name = get_copernicus_tile_name(lt, ln)
+        tiles[tile_name].append((ln, lt))
+        
+    results = {}
     
-    try:
-        for i in range(0, len(coords), chunk_size):
-            chunk = coords[i:i + chunk_size]
-            lats_str = ",".join(str(round(c[0], 5)) for c in chunk)
-            lons_str = ",".join(str(round(c[1], 5)) for c in chunk)
-            
-            url = f"https://api.open-meteo.com/v1/elevation?latitude={lats_str}&longitude={lons_str}"
-            resp = requests.get(url)
-            
-            if resp.status_code == 200:
-                data = resp.json()
-                # ✅ WICHTIG: None bedeutet meist Wasserfläche/Ozean -> als np.nan markieren
-                chunk_elevs = []
-                for e in data.get('elevation', []):
-                    if e is None:
-                        chunk_elevs.append(np.nan)  # Markiere als ungültig
-                    else:
-                        chunk_elevs.append(float(e))
-                # Pad if the API returned fewer items than requested
-                while len(chunk_elevs) < len(chunk):
-                    chunk_elevs.append(np.nan)
-                    
-                elevations.extend(chunk_elevs)
-            else:
-                print(f"OM API Error {resp.status_code}: {resp.text}")
-                # IF WE HIT RATE LIMIT, SLEEP LONGER AND RETRY ONCE
-                if resp.status_code == 429:
-                    print("Rate limit hit, sleeping for 3 seconds...")
-                    time.sleep(3.0)
-                    resp_retry = requests.get(url)
-                    if resp_retry.status_code == 200:
-                        data = resp_retry.json()
-                        chunk_elevs = [e if e is not None else np.nan for e in data.get('elevation', [np.nan]*len(chunk))]
-                        elevations.extend(chunk_elevs)
-                    else:
-                        print(f"Retry failed with {resp_retry.status_code}")
-                        elevations.extend([np.nan] * len(chunk))
-                else:
-                    elevations.extend([np.nan] * len(chunk)) # fallback for chunk
+    # Verbindung zum öffentlichen Bucket aufbauen
+    env = rasterio.Env(AWSSession(aws_unsigned=True), AWS_NO_SIGN_REQUEST="YES")
+    with env:
+        for tile_url, pts in tiles.items():
+            try:
+                with rasterio.open(tile_url) as src:
+                    # Direkter, punktgenauer Zugriff auf Pixel ohne alles herunterzuladen
+                    samples = list(src.sample(pts))
+                    for pt, val in zip(pts, samples):
+                        # Bei Fehlern/Wasser ist der Wert oft eine sehr große negative Zahl oder NaN
+                        elev = float(val[0])
+                        # Setze NoData/Wasser auf 0
+                        if elev < -500 or math.isnan(elev):
+                            elev = 0.0
+                        results[pt] = elev
+            except Exception as e:
+                # Kachel existiert evtl. nicht (z.B. offener Ozean)
+                for pt in pts:
+                    results[pt] = 0.0
 
-            # Schlafe kurz, um Rate Limit Error (429) von Open-Meteo zu verhindern
-            time.sleep(0.5)
-
-        # Build DataFrame
-        grid_data = []
-        for i, (lat, lon) in enumerate(coords):
-            elev = elevations[i] if i < len(elevations) else np.nan
+    grid_data = []
+    
+    # Wir speichern nun als Polygon, damit es als flächendeckende Grid-Karte gezeichnet wird!
+    lat_step = lats[1] - lats[0]
+    lon_step = lons[1] - lons[0]
+    
+    for lt in lats:
+        for ln in lons:
+            elev = results.get((ln, lt), 0.0)
             
-            # ✅ Überspringe nur NaN-Werte (fehlende Daten)
-            # Alle realen Höhenwerte werden angezeigt, auch negative!
-            if np.isnan(elev):
-                continue
+            # Koordinaten des Rasters (Viereck) berechnen
+            lon1, lon2 = ln - lon_step/2, ln + lon_step/2
+            lat1, lat2 = lt - lat_step/2, lt + lat_step/2
+            polygon = [
+                [lon1, lat1],
+                [lon2, lat1],
+                [lon2, lat2],
+                [lon1, lat2],
+                [lon1, lat1]
+            ]
             
             grid_data.append({
-                'lat': lat,
-                'lon': lon,
-                'elevation': float(elev),
-                'geometry': [lon, lat]
+                'lat': lt,
+                'lon': ln,
+                'elevation': elev,
+                'polygon': polygon
             })
             
-        df = pd.DataFrame(grid_data)
-        
-        # Zusätzliche Sicherheit: Entferne verbleibende NaN-Zeilen
-        df = df.dropna(subset=['elevation'])
-        
-        # ✅ VALIDIERUNG: Prüfe, ob genug Datenpunkte vorhanden sind
-        if len(df) < 10:
-            st.warning(f"⚠️ Nur {len(df)} gültige Höhenpunkte gefunden. Das Gebiet liegt möglicherweise überwiegend im Ozean oder Daten fehlen.")
-            # Fallback für reine Ozeangebiete
-            if len(df) == 0:
-                return generate_elevation_grid(center_lat, center_lon, grid_size, spread_km)
-        
-        return df
-        
-    except Exception as e:
-        st.warning(f"⚠️ API Fehler: {e}. Lade Fallback-Grid.")
+    df = pd.DataFrame(grid_data)
+    
+    # Validierung
+    if len(df) == 0:
         return generate_elevation_grid(center_lat, center_lon, grid_size, spread_km)
+        
+    return df
 
 def generate_elevation_grid(center_lat, center_lon, grid_size=30, spread_km=5.0):
     """
     FALLBACK function: Generates a synthetic elevation grid when real data is unavailable.
     """
     lat_spread = (spread_km / 111.0) / 2
-    lon_spread = (spread_km / (111.0 * np.cos(np.radians(center_lat)))) / 2
+    lon_spread = (spread_km / (111.0 * math.cos(math.radians(center_lat)))) / 2
     
     lats = np.linspace(center_lat - lat_spread, center_lat + lat_spread, grid_size)
     lons = np.linspace(center_lon - lon_spread, center_lon + lon_spread, grid_size)
+    
+    lat_step = lats[1] - lats[0] if grid_size > 1 else 0.01
+    lon_step = lons[1] - lons[0] if grid_size > 1 else 0.01
     
     grid_data = []
     
     for lat in lats:
         for lon in lons:
             dist_origin = np.sqrt((lat - center_lat)**2 + (lon - center_lon)**2)
-            # Organic waves based on absolute coords - IMMER positiv halten für Land
             base_elevation = 5.0 + np.sin(lat * 80)*3 + np.cos(lon * 80)*3 + (dist_origin * 40)
-            # ✅ Stelle sicher, dass synthetische Daten immer > 0 sind (kein Ozean simulieren)
             base_elevation = max(base_elevation, 0.5)
+            
+            lon1, lon2 = lon - lon_step/2, lon + lon_step/2
+            lat1, lat2 = lat - lat_step/2, lat + lat_step/2
+            polygon = [
+                [lon1, lat1],
+                [lon2, lat1],
+                [lon2, lat2],
+                [lon1, lat2],
+                [lon1, lat1]
+            ]
+            
             grid_data.append({
                 'lat': lat, 
                 'lon': lon, 
                 'elevation': float(base_elevation), 
-                'geometry': [lon, lat]
+                'polygon': polygon
             })
             
     return pd.DataFrame(grid_data)
 
 def render_flood_map(lat, lon, sea_level_rise_m, city_name=None):
     """
-    Renders a Pydeck ColumnLayer around the provided coordinates showing flood risk.
-    If city_name is provided, uses precomputed data instead of API calls.
+    Renders a Pydeck PolygonLayer around the provided coordinates showing flood risk.
     """
-    # Versuche zuerst vorberechnete Daten zu verwenden
-    if city_name:
-        df_grid = get_precomputed_elevation_data(city_name)
-        if df_grid is not None and len(df_grid) > 0:
-            st.info(f"✅ Verwende vorberechnete Daten für {city_name} (kein API-Call nötig)")
-        else:
-            # Fallback zu API wenn vorberechnete Daten fehlen
-            df_grid = get_real_elevation_data(lat, lon, grid_size=35, spread_km=15.0)
-    else:
-        # Fetch TRUE data from Open-Meteo
-        df_grid = get_real_elevation_data(lat, lon, grid_size=35, spread_km=15.0)
-    
-    # ✅ Entferne nur NaN-Werte, KEINE Höhenfilterung
-    df_grid = df_grid.dropna(subset=['elevation'])
-    
-    # Prüfe auf leere Daten
-    if len(df_grid) == 0:
-        st.error("❌ Keine gültigen Höhendaten verfügbar. Bitte wähle eine andere Stadt.")
-        return None
+    # Lade jetzt immer die Copernicus-Daten aus der AWS S3 Registry
+    # spread_km auf 45.0 hochgesetzt, um eine 9-mal so große Fläche (3x3) abzubilden
+    df_grid = get_real_elevation_data(lat, lon, grid_size=90, spread_km=45.0)
     
     # Calculate water depth and colors
     def get_color(elev, sea_level):
         diff = elev - sea_level
         # 🔴 ÜBERFLUTET: Höhe <= Meeresspiegel
         if diff <= 0:
-            return [255, 0, 0, 140]  # Red transparenter
-        # 🟠 BEDROHTE ZONE: 0 bis 1m über Meeresspiegel
-        elif diff <= 1.0:
-            return [255, 102, 0, 110]  # Orange
-        # 🟡 GEFÄHRDET: 1 bis 3m über Meeresspiegel
-        elif diff <= 3.0:
-            return [255, 204, 0, 80]  # Yellow
-        # 🟢 SICHER: > 3m
-        else:
-            return [102, 204, 51, 30]  # Green with low opacity
+            depth = abs(diff)
+            # Blau-Gradient: Dunkler = Tiefer
+            if depth > 5: return [8, 48, 107, 220]      # Sehr tief (Dunkelblau)
+            elif depth > 2: return [33, 113, 181, 200]    # Mittel
+            else: return [107, 174, 214, 180]             # Flachwasser (Hellblau)
             
-    df_grid['color'] = df_grid.apply(lambda row: get_color(row['elevation'], sea_level_rise_m), axis=1)
-    df_grid['elevation_display'] = df_grid['elevation'].round(2)
+        # 🟢 SICHER: Höhe > Meeresspiegel
+        else:
+            # Grün/Braun-Gradient basierend auf Höhe
+            if diff < 2: return [116, 196, 118, 120]      # Sehr nah am Wasser, gefärdet
+            elif diff < 10: return [49, 163, 84, 120]     # Sicher (Grün)
+            elif diff < 50: return [166, 217, 106, 120]   # Hügelig
+            else: return [217, 217, 217, 120]             # Hoch gelegen / Gebirge
+            
+    df_grid['color'] = df_grid['elevation'].apply(lambda x: get_color(x, sea_level_rise_m))
     
-    # ✅ FIX für negative Höhen + flache Gebiete
-    # ColumnLayer kann keine negativen Höhen anzeigen
-    # Für sehr flache Gebiete (z.B. Amsterdam): Nutze verstärkte Skalierung
-    elevation_range = df_grid['elevation'].max() - df_grid['elevation'].min()
+    # Überflutetes Volumen berechnen (reine Landfläche, bestehendes Meer wird ausgeschlossen)
+    land_points = df_grid[df_grid['elevation'] > 0]
+    if len(land_points) > 0:
+        newly_flooded_points = len(land_points[land_points['elevation'] <= sea_level_rise_m])
+        flood_ratio = (newly_flooded_points / len(land_points)) * 100
+    else:
+        flood_ratio = 0.0
+        
+    st.markdown(f"**🌊 Anteil überfluteter Landfläche (Radius 45km):** `{flood_ratio:.1f}%`")
     
-    if elevation_range < 5:  # Sehr flaches Gebiet (z.B. Amsterdam, Polder)
-        # Nutze Abstand zum Minimum als Höhe (alle Punkte sichtbar)
-        min_elev = df_grid['elevation'].min()
-        df_grid['elevation_visual'] = (df_grid['elevation'] - min_elev + 0.5)
-        elevation_scale = 100  # Stärkere Skalierung für flache Gebiete
-    else:  # Normales Gebiet mit Variation
-        # Nutze absolute Werte für negative Höhen
-        df_grid['elevation_visual'] = df_grid['elevation'].apply(lambda x: max(x, 0.5) if x >= 0 else abs(x) + 0.5)
-        elevation_scale = 50
-    
-    # Pydeck Layer
-    column_layer = pdk.Layer(
-        "ColumnLayer",
+    # Wir nutzen den PolygonLayer um eine geschlossene, realistische Fläche zu zeichnen.
+    # extrude=True erlaubt es uns, die Erhebungen der Polygone als 3D Block darzustellen (wie Minecraft)
+    layer = pdk.Layer(
+        "PolygonLayer",
         data=df_grid,
-        get_position='[lon, lat]',
-        get_elevation='elevation_visual',  # ✅ Transformierte Werte
-        elevation_scale=elevation_scale,    # ✅ Dynamische Skalierung
-        radius=200,
-        get_fill_color='color',
+        get_polygon="polygon",
+        get_fill_color="color",
+        get_elevation="elevation",
+        elevation_scale=15,  # überhöht, um Topographie besser zu erkennen
+        extruded=True,
+        wireframe=False,
         pickable=True,
-        auto_highlight=True,
+        auto_highlight=True
     )
     
-    # View State
     view_state = pdk.ViewState(
         latitude=lat,
         longitude=lon,
-        zoom=11.5,
+        zoom=10,
         pitch=45,
         bearing=0
     )
     
-    # Map
     r = pdk.Deck(
-        layers=[column_layer],
+        layers=[layer],
         initial_view_state=view_state,
-        tooltip={"text": "Höhe ü. NN: {elevation_display}m"},
+        tooltip={
+            "html": "<b>Höhe:</b> {elevation} m über NN<br/><b>Lat/Lon:</b> {lat}, {lon}",
+            "style": {"color": "white"}
+        },
         map_provider="carto",
         map_style="light",
     )

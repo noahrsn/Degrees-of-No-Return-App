@@ -1,204 +1,52 @@
 {
-  "Hamburg": {
-    "lat": 53.5511,
-    "lon": 9.9937,
-    "description": "Norddeutsche Küstenstadt, stark überflutungsgefährdet",
-    "elevation_data": [
-      {"lat": 53.528577, "lon": 9.955790, "elevation": 2.1},
-      {"lat": 53.528577, "lon": 9.959781, "elevation": 3.8},
-      {"lat": 53.528577, "lon": 9.963771, "elevation": 6.5},
-      {"lat": 53.551100, "lon": 9.993700, "elevation": -1.2},
-      {"lat": 53.540000, "lon": 10.000000, "elevation": 1.5},
-      {"lat": 53.560000, "lon": 9.980000, "elevation": 8.3},
-      {"lat": 53.545000, "lon": 9.985000, "elevation": 0.8},
-      {"lat": 53.555000, "lon": 9.995000, "elevation": 4.2},
-      {"lat": 53.548000, "lon": 9.970000, "elevation": 12.5},
-      {"lat": 53.535000, "lon": 9.990000, "elevation": 2.8},
-      {"lat": 53.565000, "lon": 10.005000, "elevation": 5.9},
-      {"lat": 53.542000, "lon": 9.975000, "elevation": 15.2},
-      {"lat": 53.557000, "lon": 9.988000, "elevation": 7.1},
-      {"lat": 53.530000, "lon": 9.980000, "elevation": 1.2},
-      {"lat": 53.570000, "lon": 9.995000, "elevation": 10.8}
-    ]
-  },
-  "München": {
-    "lat": 48.1351,
-    "lon": 11.5820,
-    "description": "Süddeutsche Metropole, höher gelegen, Hitzerisiko",
-    "elevation_data": [
-      {"lat": 48.135100, "lon": 11.582000, "elevation": 520.0},
-      {"lat": 48.140000, "lon": 11.575000, "elevation": 518.0},
-      {"lat": 48.130000, "lon": 11.590000, "elevation": 522.0},
-      {"lat": 48.145000, "lon": 11.580000, "elevation": 515.0},
-      {"lat": 48.125000, "lon": 11.585000, "elevation": 525.0},
-      {"lat": 48.138000, "lon": 11.578000, "elevation": 519.0},
-      {"lat": 48.142000, "lon": 11.588000, "elevation": 517.0},
-      {"lat": 48.128000, "lon": 11.575000, "elevation": 523.0}
-    ]
-  },
-  "Wien": {
-    "lat": 48.2082,
-    "lon": 16.3738,
-    "description": "Österreichische Hauptstadt, moderate Höhenlage",
-    "elevation_data": [
-      {"lat": 48.208200, "lon": 16.373800, "elevation": 171.0},
-      {"lat": 48.210000, "lon": 16.370000, "elevation": 169.0},
-      {"lat": 48.205000, "lon": 16.380000, "elevation": 173.0},
-      {"lat": 48.215000, "lon": 16.375000, "elevation": 168.0},
-      {"lat": 48.200000, "lon": 16.378000, "elevation": 175.0},
-      {"lat": 48.212000, "lon": 16.372000, "elevation": 170.0},
-      {"lat": 48.206000, "lon": 16.376000, "elevation": 172.0},
-      {"lat": 48.214000, "lon": 16.380000, "elevation": 167.0}
-    ]
-  },
-  "Zürich": {
-    "lat": 47.3769,
-    "lon": 8.5417,
-    "description": "Schweizer Finanzmetropole, hoch gelegen am See",
-    "elevation_data": [
-      {"lat": 47.376900, "lon": 8.541700, "elevation": 408.0},
-      {"lat": 47.380000, "lon": 8.535000, "elevation": 405.0},
-      {"lat": 47.373000, "lon": 8.548000, "elevation": 410.0},
-      {"lat": 47.385000, "lon": 8.540000, "elevation": 403.0},
-      {"lat": 47.370000, "lon": 8.545000, "elevation": 412.0},
-      {"lat": 47.378000, "lon": 8.538000, "elevation": 407.0},
-      {"lat": 47.382000, "lon": 8.543000, "elevation": 406.0},
-      {"lat": 47.375000, "lon": 8.550000, "elevation": 409.0}
-    ]
-  },
-  "Amsterdam": {
-    "lat": 52.3676,
-    "lon": 4.9041,
-    "description": "Niederländische Hauptstadt, extrem überflutungsgefährdet",
-    "elevation_data": [
-      {"lat": 52.367600, "lon": 4.904100, "elevation": -1.2},
-      {"lat": 52.370000, "lon": 4.900000, "elevation": -0.8},
-      {"lat": 52.365000, "lon": 4.910000, "elevation": 0.5},
-      {"lat": 52.375000, "lon": 4.905000, "elevation": -1.5},
-      {"lat": 52.360000, "lon": 4.908000, "elevation": 1.2},
-      {"lat": 52.372000, "lon": 4.902000, "elevation": -0.3},
-      {"lat": 52.368000, "lon": 4.906000, "elevation": 0.8},
-      {"lat": 52.374000, "lon": 4.912000, "elevation": -0.9},
-      {"lat": 52.363000, "lon": 4.898000, "elevation": 2.1},
-      {"lat": 52.378000, "lon": 4.908000, "elevation": -1.8},
-      {"lat": 52.366000, "lon": 4.915000, "elevation": 1.5},
-      {"lat": 52.371000, "lon": 4.897000, "elevation": -0.5},
-      {"lat": 52.369000, "lon": 4.911000, "elevation": 0.2},
-      {"lat": 52.376000, "lon": 4.903000, "elevation": -1.1},
-      {"lat": 52.364000, "lon": 4.906000, "elevation": 1.8}
-    ]
-  },
-  "Bremen": {
-    "lat": 53.0793,
-    "lon": 8.8017,
-    "description": "Hansestadt an der Weser, stark überflutungsgefährdet",
-    "elevation_data": [
-      {"lat": 53.079300, "lon": 8.801700, "elevation": 0.8},
-      {"lat": 53.075000, "lon": 8.795000, "elevation": -0.5},
-      {"lat": 53.083000, "lon": 8.808000, "elevation": 2.3},
-      {"lat": 53.071000, "lon": 8.810000, "elevation": 1.1},
-      {"lat": 53.087000, "lon": 8.795000, "elevation": 3.8},
-      {"lat": 53.073000, "lon": 8.802000, "elevation": -0.2},
-      {"lat": 53.081000, "lon": 8.813000, "elevation": 1.9},
-      {"lat": 53.077000, "lon": 8.790000, "elevation": 0.3},
-      {"lat": 53.085000, "lon": 8.805000, "elevation": 2.7},
-      {"lat": 53.070000, "lon": 8.798000, "elevation": -0.8},
-      {"lat": 53.089000, "lon": 8.800000, "elevation": 4.2},
-      {"lat": 53.074000, "lon": 8.815000, "elevation": 1.5},
-      {"lat": 53.082000, "lon": 8.797000, "elevation": 2.1},
-      {"lat": 53.076000, "lon": 8.807000, "elevation": 1.2},
-      {"lat": 53.080000, "lon": 8.793000, "elevation": 0.6}
-    ]
-  },
-  "Wilhelmshaven": {
-    "lat": 53.5312,
-    "lon": 8.1070,
-    "description": "Marinestadt direkt an der Nordsee, extrem gefährdet",
-    "elevation_data": [
-      {"lat": 53.531200, "lon": 8.107000, "elevation": -0.3},
-      {"lat": 53.535000, "lon": 8.100000, "elevation": -1.1},
-      {"lat": 53.527000, "lon": 8.113000, "elevation": 0.9},
-      {"lat": 53.539000, "lon": 8.110000, "elevation": -0.7},
-      {"lat": 53.523000, "lon": 8.104000, "elevation": 1.4},
-      {"lat": 53.533000, "lon": 8.095000, "elevation": -1.5},
-      {"lat": 53.529000, "lon": 8.118000, "elevation": 1.8},
-      {"lat": 53.537000, "lon": 8.103000, "elevation": -0.9},
-      {"lat": 53.525000, "lon": 8.110000, "elevation": 0.5},
-      {"lat": 53.541000, "lon": 8.098000, "elevation": -1.8},
-      {"lat": 53.520000, "lon": 8.108000, "elevation": 2.1},
-      {"lat": 53.534000, "lon": 8.115000, "elevation": -0.4},
-      {"lat": 53.528000, "lon": 8.101000, "elevation": 0.2},
-      {"lat": 53.536000, "lon": 8.112000, "elevation": -0.6},
-      {"lat": 53.526000, "lon": 8.106000, "elevation": 1.1}
-    ]
-  },
-  "Emden": {
-    "lat": 53.3594,
-    "lon": 7.2067,
-    "description": "Hafenstadt Ostfriesland, sehr niedrig gelegen",
-    "elevation_data": [
-      {"lat": 53.359400, "lon": 7.206700, "elevation": 0.2},
-      {"lat": 53.363000, "lon": 7.200000, "elevation": -0.6},
-      {"lat": 53.355000, "lon": 7.213000, "elevation": 1.3},
-      {"lat": 53.367000, "lon": 7.209000, "elevation": -0.9},
-      {"lat": 53.351000, "lon": 7.204000, "elevation": 1.8},
-      {"lat": 53.361000, "lon": 7.197000, "elevation": -1.2},
-      {"lat": 53.357000, "lon": 7.216000, "elevation": 2.2},
-      {"lat": 53.365000, "lon": 7.202000, "elevation": -0.4},
-      {"lat": 53.353000, "lon": 7.210000, "elevation": 0.8},
-      {"lat": 53.369000, "lon": 7.198000, "elevation": -1.5},
-      {"lat": 53.349000, "lon": 7.207000, "elevation": 2.5},
-      {"lat": 53.362000, "lon": 7.214000, "elevation": 0.1},
-      {"lat": 53.356000, "lon": 7.201000, "elevation": 0.5},
-      {"lat": 53.364000, "lon": 7.211000, "elevation": -0.7},
-      {"lat": 53.354000, "lon": 7.205000, "elevation": 1.5}
-    ]
-  },
-  "Bremerhaven": {
-    "lat": 53.5396,
-    "lon": 8.5809,
-    "description": "Nordseehafen an der Wesermündung, hochgefährdet",
-    "elevation_data": [
-      {"lat": 53.539600, "lon": 8.580900, "elevation": -0.1},
-      {"lat": 53.543000, "lon": 8.575000, "elevation": -0.8},
-      {"lat": 53.536000, "lon": 8.587000, "elevation": 1.2},
-      {"lat": 53.547000, "lon": 8.583000, "elevation": -1.3},
-      {"lat": 53.532000, "lon": 8.578000, "elevation": 1.9},
-      {"lat": 53.541000, "lon": 8.572000, "elevation": -1.6},
-      {"lat": 53.537000, "lon": 8.590000, "elevation": 2.3},
-      {"lat": 53.545000, "lon": 8.577000, "elevation": -1.0},
-      {"lat": 53.534000, "lon": 8.585000, "elevation": 0.6},
-      {"lat": 53.549000, "lon": 8.574000, "elevation": -1.9},
-      {"lat": 53.530000, "lon": 8.582000, "elevation": 2.7},
-      {"lat": 53.542000, "lon": 8.588000, "elevation": -0.3},
-      {"lat": 53.538000, "lon": 8.576000, "elevation": 0.4},
-      {"lat": 53.544000, "lon": 8.586000, "elevation": -0.5},
-      {"lat": 53.535000, "lon": 8.581000, "elevation": 1.4}
-    ]
-  },
-  "Cuxhaven": {
-    "lat": 53.8624,
-    "lon": 8.6947,
-    "description": "Nordseebad an der Elbmündung, extrem gefährdet",
-    "elevation_data": [
-      {"lat": 53.862400, "lon": 8.694700, "elevation": 0.5},
-      {"lat": 53.866000, "lon": 8.688000, "elevation": -0.4},
-      {"lat": 53.858000, "lon": 8.701000, "elevation": 1.6},
-      {"lat": 53.870000, "lon": 8.697000, "elevation": -0.9},
-      {"lat": 53.854000, "lon": 8.692000, "elevation": 2.1},
-      {"lat": 53.864000, "lon": 8.685000, "elevation": -1.3},
-      {"lat": 53.860000, "lon": 8.705000, "elevation": 2.5},
-      {"lat": 53.868000, "lon": 8.690000, "elevation": -0.7},
-      {"lat": 53.856000, "lon": 8.698000, "elevation": 1.1},
-      {"lat": 53.872000, "lon": 8.686000, "elevation": -1.6},
-      {"lat": 53.852000, "lon": 8.695000, "elevation": 2.8},
-      {"lat": 53.865000, "lon": 8.702000, "elevation": 0.2},
-      {"lat": 53.861000, "lon": 8.689000, "elevation": 0.8},
-      {"lat": 53.867000, "lon": 8.699000, "elevation": -0.5},
-      {"lat": 53.857000, "lon": 8.693000, "elevation": 1.8}
-    ]
-  }
+    "Hamburg": {
+        "lat": 53.5511,
+        "lon": 9.9937,
+        "description": "Großstadt an der Elbe (hohes Sturmflutrisiko)"
+    },
+    "Bremen": {
+        "lat": 53.0793,
+        "lon": 8.8017,
+        "description": "An der Weser liegende Hansestadt"
+    },
+    "Bremerhaven": {
+        "lat": 53.5396,
+        "lon": 8.5809,
+        "description": "Tief gelegene Hafenstadt an der Nordseeküste"
+    },
+    "Cuxhaven": {
+        "lat": 53.8617,
+        "lon": 8.6946,
+        "description": "Küstenstadt direkt an der Elbmündung"
+    },
+    "Wilhelmshaven": {
+        "lat": 53.5262,
+        "lon": 8.1147,
+        "description": "Wichtiger Tiefwasserhafen am Jadebusen"
+    },
+    "Emden": {
+        "lat": 53.367,
+        "lon": 7.2058,
+        "description": "Seehafenstadt an der Emsmündung"
+    },
+    "Lübeck": {
+        "lat": 53.8655,
+        "lon": 10.6865,
+        "description": "Ostseestadt an der Trave"
+    },
+    "Rostock": {
+        "lat": 53.8655,
+        "lon": 10.6865,
+        "description": "Hansestadt mit Zugang zur Ostsee"
+    },
+    "Flensburg": {
+        "lat": 54.7818,
+        "lon": 9.4357,
+        "description": "Stadt an der Flensburger Förde (Ostsee)"
+    },
+    "Amsterdam": {
+        "lat": 52.3676,
+        "lon": 4.9041,
+        "description": "Europäische Referenzstadt unter dem Meeresspiegel"
+    }
 }
-
-
-

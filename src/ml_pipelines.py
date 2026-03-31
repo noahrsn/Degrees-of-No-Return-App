@@ -57,25 +57,48 @@ class ClimateModels:
         
         # Because we used normalized anomalies in C-Phase, we calibrate them to total actuals here (rough calibration for display).
         sea_level_rise_cm = (year - base_year) * (sea_pred_baseline * 0.1) # scale simulation
-        # Adding IPCC baseline
-        if scenario == 'ssp1-1.9': sea_level_rise_cm += (year-base_year)*0.4
-        elif scenario == 'ssp2-4.5': sea_level_rise_cm += (year-base_year)*0.6
-        else: sea_level_rise_cm += (year-base_year)*0.9
-        
+# Add Uncertainty based on Scenario (Higher emissions = Higher uncertainty)
+        if scenario == 'ssp1-1.9': 
+            sea_level_rise_cm += (year-base_year)*0.4    
+            uncertainty_sea = 0.15 
+            uncertainty_temp = 0.10
+        elif scenario == 'ssp2-4.5': 
+            sea_level_rise_cm += (year-base_year)*0.6  
+            uncertainty_sea = 0.25 
+            uncertainty_temp = 0.20
+        else: 
+            sea_level_rise_cm += (year-base_year)*0.9
+            uncertainty_sea = 0.40 
+            uncertainty_temp = 0.35
+
         # Temp calibration
-        temp_increase = temp_pred_baseline * 0.05 + (year-base_year) * 0.03
-        if scenario == 'ssp5-8.5': temp_increase += (year-base_year) * 0.02
+        temp_increase = temp_pred_baseline * 0.05 + (year-base_year) * 0.03     
+        if scenario == 'ssp5-8.5': temp_increase += (year-base_year) * 0.02     
         
         # Calculate derived Heat Days (Approximation)
         heat_days_base = 10
-        heat_days = int(heat_days_base + (temp_increase * 15)) 
+        heat_days = int(heat_days_base + (temp_increase * 15))
         
+        # Ranges
+        sea_min = max(0.0, sea_level_rise_cm * (1 - uncertainty_sea))
+        sea_max = sea_level_rise_cm * (1 + uncertainty_sea)
+        temp_min = max(0.0, temp_increase * (1 - uncertainty_temp))
+        temp_max = temp_increase * (1 + uncertainty_temp)
+        heat_days_min = max(0, int(heat_days_base + (temp_min * 15)))
+        heat_days_max = int(heat_days_base + (temp_max * 15))
+
         return {
             'year': year,
             'scenario': scenario,
             'sea_level_rise_cm': max(0.0, sea_level_rise_cm),
+            'sea_level_rise_cm_min': sea_min,
+            'sea_level_rise_cm_max': sea_max,
             'temp_increase_c': max(0.0, temp_increase),
+            'temp_increase_c_min': temp_min,
+            'temp_increase_c_max': temp_max,
             'expected_heat_days': max(0, heat_days),
+            'expected_heat_days_min': heat_days_min,
+            'expected_heat_days_max': heat_days_max,
             'co2_ppm': projected_co2
         }
 

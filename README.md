@@ -30,8 +30,14 @@ Folgen Sie diesen Schritten, um die Entwicklungsumgebung einzurichten:
     pip install -r requirements.txt
     ```
 
-4.  **Jupyter Notebooks starten**
-    Um die Analysephasen (Q, U, A) anzusehen oder auszuführen:
+4.  **Lokale App starten**
+    Um das fertige Streamlit-Dashboard aufzurufen:
+    ```bash
+    streamlit run app.py
+    ```
+
+5.  **Jupyter Notebooks starten (Forschungsphasen)**
+    Die zugrundeliegenden Modelle und Theorien befinden sich im Ordner `notebooks/`:
     ```bash
     jupyter notebook
     ```
@@ -70,25 +76,25 @@ Trotz der Verwendung hochwertiger Datenquellen unterliegt das Projekt methodisch
 
 Wir arbeiten nach dem **QUA³CK-Prozessmodell** (gesprochen: "Quack"). Dies stellt sicher, dass wir wissenschaftlich sauber von der Frage zur Lösung kommen. Die Phasen sind in entsprechenden Jupyter Notebooks dokumentiert:
 
-### 1. [Q-Phase: Question (Fragestellung)](Q-Phase.ipynb)
+### 1. [Q-Phase: Question (Fragestellung)](notebooks/Q-Phase.ipynb)
 Hier definieren wir das "Warum?".
 *   *Inhalt:* Definition der Forschungsfragen, Identifikation der Zielgruppen (Stadtplaner, Versicherer) und Festlegung der harten Erfolgsmetriken (z.B. RMSE < 0,2°C).
 
-### 2. [U-Phase: Understanding the Data (Datenverständnis)](U-Phase.ipynb)
+### 2. [U-Phase: Understanding the Data (Datenverständnis)](notebooks/U-Phase.ipynb)
 Hier lernen wir unsere Rohdaten kennen.
 *   *Inhalt:* Explorative Datenanalyse (EDA), Prüfung der Datenqualität, Visualisierung erster Trends und Bereinigung von Fehlwerten.
 
-### 3. [A-Phasen: Algorithm, Adaptation, Adjustment (Modellierung)](A-Phase.ipynb)
+### 3. [A-Phasen: Algorithm, Adaptation, Adjustment (Modellierung)](notebooks/A-Phase.ipynb)
 Das Herzstück des maschinellen Lernens – aufgeteilt in drei Schritte (A³):
 *   **A1 – Algorithm Selection:** Auswahl des passenden Modells (z.B. Ridge Regression).
 *   **A2 – Adapting Features:** Anpassung der Daten (z.B. Verzögerungseffekte/Lag-Features einbauen), damit das Modell die Trägheit des Klimas versteht.
 *   **A3 – Adjusting Hyperparameters:** Feinjustierung der Modelleinstellungen für maximale Präzision.
 
-### 4. C-Phase: Conclude (Schlussfolgerung)
-*   *Status:* (In Entwicklung)
-*   *Inhalt:* Finale Bewertung der trainierten Modelle und Entscheidung für das beste Setup.
+### 4. [C-Phase: Conclude (Schlussfolgerung)](notebooks/C-Phase.ipynb)
+*   *Status:* (Abgeschlossen)
+*   *Inhalt:* Finale Bewertung der trainierten Modelle, Definition der Konfidenzintervalle zur Vermeidung von Scheingenauigkeit und Entscheidung für das beste Setup.
 
-### 5. K-Phase: Knowledge Transfer (Wissenstransfer)
-*   *Status:* (Geplant)
-*   *Inhalt:* Aufbau der **Streamlit WebApp**. Übersetzung der komplexen Zahlen in interaktive Karten und Regler für den Endanwender.
+### 5. [K-Phase: Knowledge Transfer (Wissenstransfer)](notebooks/K-Phase.md)
+*   *Status:* (Abgeschlossen)
+*   *Inhalt:* Aufbau der **Streamlit WebApp**. Übersetzung der komplexen Zahlen in interaktive, laientaugliche 3D-Karten (mittels PyDeck) und dynamische Dashboards mit erklärenden Tooltips und verständlichen KPIs.
 

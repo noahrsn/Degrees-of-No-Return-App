@@ -10,11 +10,14 @@ def generate_global_heat_grid(global_temp_increase_c):
     lats = np.linspace(-55, 65, 45)
     lons = np.linspace(-180, 180, 90)
 
+    lat_step = (65 - -55) / (45 - 1)
+    lon_step = (180 - -180) / (90 - 1)
+
     data = []
     for lat in lats:
         for lon in lons:
             # Heat days are higher near the equator
-            base_heat_days = base_heat_days = max(0, 80 - abs(lat) * 1.5)
+            base_heat_days = max(0, 80 - abs(lat) * 1.5)
 
             # Add amplification based on global temp increase
             # Equator suffers more from global increase
@@ -23,10 +26,22 @@ def generate_global_heat_grid(global_temp_increase_c):
 
             # Noise
             projected_days += np.random.normal(0, 5)
+            
+            # Polygon coordinates
+            lon1, lon2 = lon - lon_step/2, lon + lon_step/2
+            lat1, lat2 = lat - lat_step/2, lat + lat_step/2
+            polygon = [
+                [lon1, lat1],
+                [lon2, lat1],
+                [lon2, lat2],
+                [lon1, lat2],
+                [lon1, lat1]
+            ]
 
             data.append({
                 'lat': lat,
                 'lon': lon,
+                'polygon': polygon,
                 'heat_days': max(0, int(projected_days))
             })
 
@@ -80,15 +95,15 @@ def generate_global_heat_grid(global_temp_increase_c):
 def render_global_heat_map(global_temp_increase_c):
     df_heat = generate_global_heat_grid(global_temp_increase_c)
     
-    # Use ColumnLayer flattened for a beautiful raster/pixel grid look
+    # Use PolygonLayer for accurate rendering on a sphere without size distortions
     layer = pdk.Layer(
-        "ColumnLayer",
+        "PolygonLayer",
         data=df_heat,
-        get_position=["lon", "lat"],
+        get_polygon="polygon",
         get_fill_color="color",
-        radius=250000, # 250km breite Pixel
-        elevation_scale=0, # Komplett flach, wie eine 2D Karte
-        get_elevation=0,
+        filled=True,
+        extruded=False,
+        wireframe=False,
         pickable=True,
     )
     

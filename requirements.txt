@@ -10,3 +10,7 @@ seaborn
 plotly
 joblib
 scipy
+pydeck
+rasterio
+boto3
+requests
