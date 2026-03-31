@@ -5,6 +5,10 @@
 
 Anstatt nur globale Durchschnittswerte zu betrachten, bricht dieses Projekt die Daten herunter: Was bedeutet die Erderwärmung konkret für meine Stadt?
 
+## 🌐 Live-Demo
+Das fertige interaktive Dashboard ist online verfügbar unter:  
+**[degrees-of-no-return.streamlit.app](https://degrees-of-no-return.streamlit.app/)**
+
 ## Installation & Einrichtung
 
 Folgen Sie diesen Schritten, um die Entwicklungsumgebung einzurichten:
