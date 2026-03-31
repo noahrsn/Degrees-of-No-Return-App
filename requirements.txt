@@ -2,7 +2,8 @@ pandas
 matplotlib
 scikit-learn
 jupyter
-streamlit
+streamlit>=1.20.0
+altair<5.0.0
 numpy
 xarray
 netCDF4
