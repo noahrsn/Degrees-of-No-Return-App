@@ -91,3 +91,4 @@ Das Herzstück des maschinellen Lernens – aufgeteilt in drei Schritte (A³):
 ### 5. K-Phase: Knowledge Transfer (Wissenstransfer)
 *   *Status:* (Geplant)
 *   *Inhalt:* Aufbau der **Streamlit WebApp**. Übersetzung der komplexen Zahlen in interaktive Karten und Regler für den Endanwender.
+
